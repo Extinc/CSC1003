@@ -50,3 +50,9 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+.vscode
+out/
+fertility_Diagnosis_Data_Group1_4.txt
+fertility_Diagnosis_Data_Group5_8.txt
+fertility_Diagnosis_Data_Group9_11.txt
+fertility_Diagnosis_Data_Group9_11_copy.txt
