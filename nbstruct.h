@@ -33,7 +33,7 @@ typedef struct
     short int shdata;                 // smoking habit
     double numhrsitdata;              // Number of hours spent sitting per table
     unsigned short int semendiagdata; // Semen Diagnosis
-} features;
+} Features;
 
 // Features struct except for Age and Number of Hours Spend sitting per day
 struct FeatureSet
@@ -59,30 +59,30 @@ struct featuresettn
 
 typedef struct probability
 {
-    struct FeatureSet semendiagftures;  // Semen Diagnosis Features
-    struct FeatureSet winter;           // Season : Winter
-    struct FeatureSet spring;           // Season : Spring
-    struct FeatureSet summer;           // Season : Summer
-    struct FeatureSet fall;             // Season : Fall
-    struct FeatureSet cdiseaseyes;      // Childish Disease Yes
-    struct FeatureSet cdiseaseno;       // Childish Disease No
-    struct FeatureSet astyes;           // Accident / Serious Trauma YES
-    struct FeatureSet astno;            // Accident / Serious Trauma NO
-    struct FeatureSet siyes;            // Surgical Intervention YES
-    struct FeatureSet sino;             // Surgical Intervention NO
-    struct FeatureSet hflttm;           // High Fever last Year : Less than 3 mths ago
-    struct FeatureSet hfmttm;           // High Fever last Year : More than 3 mths ago
-    struct FeatureSet hfnone;           // High Fever last Year : NO
-    struct FeatureSet freqalchstd;      // Frequency of alcohol : Several times a day
-    struct FeatureSet freqalchevery;    // Frequency of alcohol : Every day
-    struct FeatureSet freqalchstw;      // Frequency of alcohol : Several times a week
-    struct FeatureSet freqalchoaw;      // Frequency of alcohol : Once a week
-    struct FeatureSet freqalchhardly;   // Frequency of alcohol : hardly or never
-    struct FeatureSet shabitnever;      // Smoking Habit : Never
-    struct FeatureSet shabitocc;        // Smoking Habit : Occasionally
-    struct FeatureSet shabitdaily;      // Smoking Habit : Daily
-    struct featuresettn ageanalysis;    // Age of Analysis
-    struct featuresettn numhrsitptable; // Number of hours sitting per table
+    struct FeatureSet semen_diagnosis;    // Semen Diagnosis Features
+    struct FeatureSet winter;             // Season : Winter
+    struct FeatureSet spring;             // Season : Spring
+    struct FeatureSet summer;             // Season : Summer
+    struct FeatureSet fall;               // Season : Fall
+    struct FeatureSet cdiseaseyes;        // Childish Disease Yes
+    struct FeatureSet cdiseaseno;         // Childish Disease No
+    struct FeatureSet accidenttrauma_yes; // Accident / Serious Trauma YES
+    struct FeatureSet accidenttrauma_no;  // Accident / Serious Trauma NO
+    struct FeatureSet surgical_yes;       // Surgical Intervention YES
+    struct FeatureSet surgical_no;        // Surgical Intervention NO
+    struct FeatureSet highfever_lttm;     // High Fever last Year : Less than 3 mths ago
+    struct FeatureSet highfever_mttm;     // High Fever last Year : More than 3 mths ago
+    struct FeatureSet highfever_none;     // High Fever last Year : NO
+    struct FeatureSet freqalchstd;        // Frequency of alcohol : Several times a day
+    struct FeatureSet freqalchevery;      // Frequency of alcohol : Every day
+    struct FeatureSet freqalchstw;        // Frequency of alcohol : Several times a week
+    struct FeatureSet freqalchoaw;        // Frequency of alcohol : Once a week
+    struct FeatureSet freqalchhardly;     // Frequency of alcohol : hardly or never
+    struct FeatureSet smokehabit_never;   // Smoking Habit : Never
+    struct FeatureSet smokehabit_occ;     // Smoking Habit : Occasionally
+    struct FeatureSet smokehabit_daily;   // Smoking Habit : Daily
+    struct featuresettn ageanalysis;      // Age of Analysis
+    struct featuresettn numhrsitptable;   // Number of hours sitting per table
 } Probability;
 
 typedef struct
@@ -97,16 +97,16 @@ typedef struct
 typedef struct
 {
     unsigned int data_count;
-    unsigned int true_pos;         // True Positive : No of times predict correctly that patient is not normal
-    unsigned int true_neg;         // True Negative : No of times predict wrongly that patient is normal
-    unsigned int false_pos;        // True Positive : No of times predict correctly that patient is not normal
-    unsigned int false_neg;        // True Negative : No of times predict wrongly that patient is normal
-    double accuracy;      // How often is it correctly : (TP+TN)/total
-    double misclass_rate; // How often is it wrong : (FP+FN)/total equivalent to 1 minus Accuracy
-    double true_posrate;  // When it's actually yes, how often does it predict yes? TP/actual yes
-    double false_posrate; // When it's actually yes, how often does it predict yes? FP/actual no
-    double true_negrate;  // When it's actually no, how often does it predict no? TN/actual no == 1 - false_posrate
-    double precision;     // how often predicted is correct? TP/
-    double prob_error;    // the probability of error, occurance of how many time the error occurred
+    unsigned int true_pos;  // True Positive : No of times predict correctly that patient is not normal
+    unsigned int true_neg;  // True Negative : No of times predict wrongly that patient is normal
+    unsigned int false_pos; // True Positive : No of times predict correctly that patient is not normal
+    unsigned int false_neg; // True Negative : No of times predict wrongly that patient is normal
+    double accuracy;        // How often is it correctly : (TP+TN)/total
+    double misclass_rate;   // How often is it wrong : (FP+FN)/total equivalent to 1 minus Accuracy
+    double true_posrate;    // When it's actually yes, how often does it predict yes? TP/actual yes
+    double false_posrate;   // When it's actually yes, how often does it predict yes? FP/actual no
+    double true_negrate;    // When it's actually no, how often does it predict no? TN/actual no == 1 - false_posrate
+    double precision;       // how often predicted is correct? TP/
+    double prob_error;      // the probability of error, occurance of how many time the error occurred
 } Confusion_Matrix;
 #endif

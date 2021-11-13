@@ -4,7 +4,7 @@
 // =============================================================================
 // Prior Probability
 // =============================================================================
-void *priorprobcalc(features *dataset, struct FeatureSet *probresult, unsigned int rowcount)
+void *priorprobcalc(Features *dataset, struct FeatureSet *probresult, unsigned int rowcount)
 {
     //struct FeatureSet *probresult;
     unsigned int normcount = 0; // normal count
@@ -27,7 +27,7 @@ void *priorprobcalc(features *dataset, struct FeatureSet *probresult, unsigned i
 // Conditional Probability
 // =============================================================================
 
-void *cpcalc(features *dataset, struct FeatureSet *priorprob, Probability *resultset, unsigned int rowcount)
+void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resultset, unsigned int rowcount)
 {
     struct FeatureSet temp = *priorprob;
     //resultset = inittozero(); // Initialize resultset
@@ -38,7 +38,7 @@ void *cpcalc(features *dataset, struct FeatureSet *priorprob, Probability *resul
     // ============================== 
     normcount = temp.normal_count;
     altcount = temp.altered_count;
-    resultset->semendiagftures = temp;
+    resultset->semen_diagnosis = temp;
     for (int i = 0; i < rowcount; i++)
     {
         if (dataset[i].semendiagdata == NORMAL_YES)
@@ -71,33 +71,33 @@ void *cpcalc(features *dataset, struct FeatureSet *priorprob, Probability *resul
             // ==============================
             if (dataset[i].atdata == NORMAL_YES)
             {
-                resultset->astyes.normal_count += 1;
+                resultset->accidenttrauma_yes.normal_count += 1;
             }
             else
             {
-                resultset->astno.normal_count += 1;
+                resultset->accidenttrauma_no.normal_count += 1;
             }
             // ==============================
             if (dataset[i].sidata == NORMAL_YES)
             {
-                resultset->siyes.normal_count += 1;
+                resultset->surgical_yes.normal_count += 1;
             }
             else
             {
-                resultset->sino.normal_count += 1;
+                resultset->surgical_no.normal_count += 1;
             }
             // ==============================
             if (dataset[i].hfdata == HIGH_FEVER_LESSTHAN)
             {
-                resultset->hflttm.normal_count += 1;
+                resultset->highfever_lttm.normal_count += 1;
             }
             else if (dataset[i].hfdata == HIGH_FEVER_MORETHAN)
             {
-                resultset->hfmttm.normal_count += 1;
+                resultset->highfever_mttm.normal_count += 1;
             }
             else if (dataset[i].hfdata == HIGH_FEVER_NO)
             {
-                resultset->hfnone.normal_count += 1;
+                resultset->highfever_none.normal_count += 1;
             }
             // ==============================
             if (dataset[i].alcconsumptdata == SERVERAL_A_DAY)
@@ -125,15 +125,15 @@ void *cpcalc(features *dataset, struct FeatureSet *priorprob, Probability *resul
 
             if (dataset[i].shdata == SH_NEVER)
             {
-                resultset->shabitnever.normal_count += 1;
+                resultset->smokehabit_never.normal_count += 1;
             }
             else if (dataset[i].shdata == SH_OCCASIONALLY)
             {
-                resultset->shabitocc.normal_count += 1;
+                resultset->smokehabit_occ.normal_count += 1;
             }
             else if (dataset[i].shdata == SH_DAILY)
             {
-                resultset->shabitdaily.normal_count += 1;
+                resultset->smokehabit_daily.normal_count += 1;
             }
 
             // ==============================
@@ -178,34 +178,34 @@ void *cpcalc(features *dataset, struct FeatureSet *priorprob, Probability *resul
             // ==============================
             if (dataset[i].atdata == NORMAL_YES)
             {
-                resultset->astyes.altered_count += 1;
+                resultset->accidenttrauma_yes.altered_count += 1;
             }
             else
             {
-                resultset->astno.altered_count += 1;
+                resultset->accidenttrauma_no.altered_count += 1;
             }
             // ==============================
             if (dataset[i].sidata == NORMAL_YES)
             {
-                resultset->siyes.altered_count += 1;
+                resultset->surgical_yes.altered_count += 1;
             }
             else
             {
-                resultset->sino.altered_count += 1;
+                resultset->surgical_no.altered_count += 1;
             }
             // ==============================
             if (dataset[i].hfdata == HIGH_FEVER_LESSTHAN)
             {
-                resultset->hflttm.altered_count += 1;
+                resultset->highfever_lttm.altered_count += 1;
             }
             else if (dataset[i].hfdata == HIGH_FEVER_MORETHAN)
             {
-                resultset->hfmttm.altered_count += 1;
+                resultset->highfever_mttm.altered_count += 1;
             }
             else if (dataset[i].hfdata == HIGH_FEVER_NO)
             {
 
-                resultset->hfnone.altered_count += 1;
+                resultset->highfever_none.altered_count += 1;
             }
             // ==============================
             if (dataset[i].alcconsumptdata == SERVERAL_A_DAY)
@@ -234,15 +234,15 @@ void *cpcalc(features *dataset, struct FeatureSet *priorprob, Probability *resul
             if (dataset[i].shdata == SH_NEVER)
             {
 
-                resultset->shabitnever.altered_count += 1;
+                resultset->smokehabit_never.altered_count += 1;
             }
             else if (dataset[i].shdata == SH_OCCASIONALLY)
             {
-                resultset->shabitocc.altered_count += 1;
+                resultset->smokehabit_occ.altered_count += 1;
             }
             else if (dataset[i].shdata == SH_DAILY)
             {
-                resultset->shabitdaily.altered_count += 1;
+                resultset->smokehabit_daily.altered_count += 1;
             }
             // ==============================
             resultset->ageanalysis.sum_altered += dataset[i].aoadata;
@@ -265,21 +265,21 @@ void *cpcalc(features *dataset, struct FeatureSet *priorprob, Probability *resul
     resultset->fall.prob_normal = (double)(resultset->fall.normal_count + ALPHA) / (normcount + (4 * ALPHA));
     resultset->cdiseaseyes.prob_normal = (double)(resultset->cdiseaseyes.normal_count + ALPHA) / (normcount + (2 * ALPHA));
     resultset->cdiseaseno.prob_normal = (double)(resultset->cdiseaseno.normal_count + ALPHA) / (normcount + (2 * ALPHA));
-    resultset->astyes.prob_normal = (double)(resultset->astyes.normal_count + ALPHA) / (normcount + (2 * ALPHA));
-    resultset->astno.prob_normal = (double)(resultset->astno.normal_count + ALPHA) / (normcount + (2 * ALPHA));
-    resultset->siyes.prob_normal = (double)(resultset->siyes.normal_count + ALPHA) / (normcount + (2 * ALPHA));
-    resultset->sino.prob_normal = (double)(resultset->sino.normal_count + ALPHA) / (normcount + (2 * ALPHA));
-    resultset->hflttm.prob_normal = (double)(resultset->hflttm.normal_count + ALPHA) / (normcount + (3 * ALPHA));
-    resultset->hfmttm.prob_normal = (double)(resultset->hfmttm.normal_count + ALPHA) / (normcount + (3 * ALPHA));
-    resultset->hfnone.prob_normal = (double)(resultset->hfnone.normal_count + ALPHA) / (normcount + (3 * ALPHA));
+    resultset->accidenttrauma_yes.prob_normal = (double)(resultset->accidenttrauma_yes.normal_count + ALPHA) / (normcount + (2 * ALPHA));
+    resultset->accidenttrauma_no.prob_normal = (double)(resultset->accidenttrauma_no.normal_count + ALPHA) / (normcount + (2 * ALPHA));
+    resultset->surgical_yes.prob_normal = (double)(resultset->surgical_yes.normal_count + ALPHA) / (normcount + (2 * ALPHA));
+    resultset->surgical_no.prob_normal = (double)(resultset->surgical_no.normal_count + ALPHA) / (normcount + (2 * ALPHA));
+    resultset->highfever_lttm.prob_normal = (double)(resultset->highfever_lttm.normal_count + ALPHA) / (normcount + (3 * ALPHA));
+    resultset->highfever_mttm.prob_normal = (double)(resultset->highfever_mttm.normal_count + ALPHA) / (normcount + (3 * ALPHA));
+    resultset->highfever_none.prob_normal = (double)(resultset->highfever_none.normal_count + ALPHA) / (normcount + (3 * ALPHA));
     resultset->freqalchstd.prob_normal = (double)(resultset->freqalchstd.normal_count + ALPHA) / (normcount + (5 * ALPHA));
     resultset->freqalchevery.prob_normal = (double)(resultset->freqalchevery.normal_count + ALPHA) / (normcount + (5 * ALPHA));
     resultset->freqalchstw.prob_normal = (double)(resultset->freqalchstw.normal_count + ALPHA) / (normcount + (5 * ALPHA));
     resultset->freqalchoaw.prob_normal = (double)(resultset->freqalchoaw.normal_count + ALPHA) / (normcount + (5 * ALPHA));
     resultset->freqalchhardly.prob_normal = (double)(resultset->freqalchhardly.normal_count + ALPHA) / (normcount + (5 * ALPHA));
-    resultset->shabitnever.prob_normal = (double)(resultset->shabitnever.normal_count + ALPHA) / (normcount + (3 * ALPHA));
-    resultset->shabitocc.prob_normal = (double)(resultset->shabitocc.normal_count + ALPHA) / (normcount + (3 * ALPHA));
-    resultset->shabitdaily.prob_normal = (double)(resultset->shabitdaily.normal_count + ALPHA) / (normcount + (3 * ALPHA));
+    resultset->smokehabit_never.prob_normal = (double)(resultset->smokehabit_never.normal_count + ALPHA) / (normcount + (3 * ALPHA));
+    resultset->smokehabit_occ.prob_normal = (double)(resultset->smokehabit_occ.normal_count + ALPHA) / (normcount + (3 * ALPHA));
+    resultset->smokehabit_daily.prob_normal = (double)(resultset->smokehabit_daily.normal_count + ALPHA) / (normcount + (3 * ALPHA));
     // resultset->ageanalysis.mean_normal = (double)(resultset->ageanalysis.sum_normal) / (resultset->ageanalysis.normal_count); // check if mean normal divide by total row or count of normal
     // resultset->numhrsitptable.mean_normal = (double)(resultset->numhrsitptable.sum_normal) / (resultset->numhrsitptable.normal_count);
     resultset->ageanalysis.mean_normal = (double)(resultset->ageanalysis.sum_normal + ALPHA) / (normcount + (1 * ALPHA)); // check if mean normal divide by total row or count of normal
@@ -293,21 +293,21 @@ void *cpcalc(features *dataset, struct FeatureSet *priorprob, Probability *resul
     resultset->fall.prob_altered = (double)(resultset->fall.altered_count + ALPHA) / (altcount + (4 * ALPHA));
     resultset->cdiseaseyes.prob_altered = (double)(resultset->cdiseaseyes.altered_count + ALPHA) / (altcount + (2 * ALPHA));
     resultset->cdiseaseno.prob_altered = (double)(resultset->cdiseaseno.altered_count + ALPHA) / (altcount + (2 * ALPHA));
-    resultset->astyes.prob_altered = (double)(resultset->astyes.altered_count + ALPHA) / (altcount + (2 * ALPHA));
-    resultset->astno.prob_altered = (double)(resultset->astno.altered_count + ALPHA) / (altcount + (2 * ALPHA));
-    resultset->siyes.prob_altered = (double)(resultset->siyes.altered_count + ALPHA) / (altcount + (2 * ALPHA));
-    resultset->sino.prob_altered = (double)(resultset->sino.altered_count + ALPHA) / (altcount + (2 * ALPHA));
-    resultset->hflttm.prob_altered = (double)(resultset->hflttm.altered_count + ALPHA) / (altcount + (4 * ALPHA)) + (3. * ALPHA);
-    resultset->hfmttm.prob_altered = (double)(resultset->hfmttm.altered_count + ALPHA) / (altcount + (4 * ALPHA)) + (3. * ALPHA);
-    resultset->hfnone.prob_altered = (double)(resultset->hfnone.altered_count + ALPHA) / (altcount + (4 * ALPHA)) + (3. * ALPHA);
+    resultset->accidenttrauma_yes.prob_altered = (double)(resultset->accidenttrauma_yes.altered_count + ALPHA) / (altcount + (2 * ALPHA));
+    resultset->accidenttrauma_no.prob_altered = (double)(resultset->accidenttrauma_no.altered_count + ALPHA) / (altcount + (2 * ALPHA));
+    resultset->surgical_yes.prob_altered = (double)(resultset->surgical_yes.altered_count + ALPHA) / (altcount + (2 * ALPHA));
+    resultset->surgical_no.prob_altered = (double)(resultset->surgical_no.altered_count + ALPHA) / (altcount + (2 * ALPHA));
+    resultset->highfever_lttm.prob_altered = (double)(resultset->highfever_lttm.altered_count + ALPHA) / (altcount + (4 * ALPHA)) + (3. * ALPHA);
+    resultset->highfever_mttm.prob_altered = (double)(resultset->highfever_mttm.altered_count + ALPHA) / (altcount + (4 * ALPHA)) + (3. * ALPHA);
+    resultset->highfever_none.prob_altered = (double)(resultset->highfever_none.altered_count + ALPHA) / (altcount + (4 * ALPHA)) + (3. * ALPHA);
     resultset->freqalchstd.prob_altered = (double)(resultset->freqalchstd.altered_count + ALPHA) / (altcount + (5 * ALPHA));
     resultset->freqalchevery.prob_altered = (double)(resultset->freqalchevery.altered_count + ALPHA) / (altcount + (5 * ALPHA));
     resultset->freqalchstw.prob_altered = (double)(resultset->freqalchstw.altered_count + ALPHA) / (altcount + (5 * ALPHA));
     resultset->freqalchoaw.prob_altered = (double)(resultset->freqalchoaw.altered_count + ALPHA) / (altcount + (5 * ALPHA));
     resultset->freqalchhardly.prob_altered = (double)(resultset->freqalchhardly.altered_count + ALPHA) / (altcount + (5 * ALPHA));
-    resultset->shabitnever.prob_altered = (double)(resultset->shabitnever.altered_count + ALPHA) / (altcount + (3 * ALPHA));
-    resultset->shabitocc.prob_altered = (double)(resultset->shabitocc.altered_count + ALPHA) / (altcount + (3 * ALPHA));
-    resultset->shabitdaily.prob_altered = (double)(resultset->shabitdaily.altered_count + ALPHA) / (altcount + (3 * ALPHA));
+    resultset->smokehabit_never.prob_altered = (double)(resultset->smokehabit_never.altered_count + ALPHA) / (altcount + (3 * ALPHA));
+    resultset->smokehabit_occ.prob_altered = (double)(resultset->smokehabit_occ.altered_count + ALPHA) / (altcount + (3 * ALPHA));
+    resultset->smokehabit_daily.prob_altered = (double)(resultset->smokehabit_daily.altered_count + ALPHA) / (altcount + (3 * ALPHA));
     // resultset->ageanalysis.mean_altered = (double)(resultset->ageanalysis.sum_altered) / resultset->ageanalysis.altered_count; // check if mean normal divide by total row or count of normal
     // resultset->numhrsitptable.mean_altered = (double)(resultset->numhrsitptable.sum_altered) / resultset->numhrsitptable.altered_count;
     resultset->ageanalysis.mean_altered = (double)(resultset->ageanalysis.sum_altered + ALPHA) / (altcount + (1 * ALPHA)); // check if mean normal divide by total row or count of normal
@@ -341,7 +341,7 @@ void *cpcalc(features *dataset, struct FeatureSet *priorprob, Probability *resul
 // =============================================================================
 // Posterior Probability
 // =============================================================================
-void *postprobcalc(features *dataset, Probability *probdataset, Probability_Err *resultset, unsigned int rowcount)
+void *postprobcalc(Features *dataset, Probability *probdataset, Probability_Err *resultset, unsigned int rowcount)
 {
     Probability probdatas = *probdataset;
     //Probability_Err *resultset = (Probability_Err *)malloc(rowcount * sizeof(Probability_Err));
@@ -394,50 +394,50 @@ void *postprobcalc(features *dataset, Probability *probdataset, Probability_Err 
         // ==============================
         if (dataset[i].atdata == NORMAL_YES)
         {
-            tempprob_normal = tempprob_normal * probdatas.astyes.prob_normal;
-            tempprob_altered = tempprob_altered * probdatas.astyes.prob_altered;
-            //printf("\n TEST S6 : %lf ", probdatas.astyes.prob_normal);
+            tempprob_normal = tempprob_normal * probdatas.accidenttrauma_yes.prob_normal;
+            tempprob_altered = tempprob_altered * probdatas.accidenttrauma_yes.prob_altered;
+            //printf("\n TEST S6 : %lf ", probdatas.accidenttrauma_yes.prob_normal);
         }
         else
         {
-            tempprob_normal = tempprob_normal * probdatas.astno.prob_normal;
-            tempprob_altered = tempprob_altered * probdatas.astno.prob_altered;
-            // printf("\n TEST S7 : %lf ", probdatas.astno.prob_normal);
+            tempprob_normal = tempprob_normal * probdatas.accidenttrauma_no.prob_normal;
+            tempprob_altered = tempprob_altered * probdatas.accidenttrauma_no.prob_altered;
+            // printf("\n TEST S7 : %lf ", probdatas.accidenttrauma_no.prob_normal);
         }
         // ==============================
 
         if (dataset[i].sidata == NORMAL_YES)
         {
-            tempprob_normal = tempprob_normal * probdatas.siyes.prob_normal;
-            tempprob_altered = tempprob_altered * probdatas.siyes.prob_altered;
-            // printf("\n TEST S8 : %lf ", probdatas.siyes.prob_normal);
+            tempprob_normal = tempprob_normal * probdatas.surgical_yes.prob_normal;
+            tempprob_altered = tempprob_altered * probdatas.surgical_yes.prob_altered;
+            // printf("\n TEST S8 : %lf ", probdatas.surgical_yes.prob_normal);
         }
         else
         {
-            tempprob_normal = tempprob_normal * probdatas.sino.prob_normal;
-            tempprob_altered = tempprob_altered * probdatas.sino.prob_altered;
-            // printf("\n TEST S9 : %lf ", probdatas.sino.prob_normal);
+            tempprob_normal = tempprob_normal * probdatas.surgical_no.prob_normal;
+            tempprob_altered = tempprob_altered * probdatas.surgical_no.prob_altered;
+            // printf("\n TEST S9 : %lf ", probdatas.surgical_no.prob_normal);
         }
 
         // ==============================
 
         if (dataset[i].hfdata == HIGH_FEVER_LESSTHAN)
         {
-            tempprob_normal = tempprob_normal * probdatas.hflttm.prob_normal;
-            tempprob_altered = tempprob_altered * probdatas.hflttm.prob_altered;
-            // printf("\n TEST 1: %lf ", probdatas.hflttm.prob_normal);
+            tempprob_normal = tempprob_normal * probdatas.highfever_lttm.prob_normal;
+            tempprob_altered = tempprob_altered * probdatas.highfever_lttm.prob_altered;
+            // printf("\n TEST 1: %lf ", probdatas.highfever_lttm.prob_normal);
         }
         else if (dataset[i].hfdata == HIGH_FEVER_MORETHAN)
         {
-            tempprob_normal = tempprob_normal * probdatas.hfmttm.prob_normal;
-            tempprob_altered = tempprob_altered * probdatas.hfmttm.prob_altered;
-            // printf("\n TEST  2: %lf ", probdatas.hfmttm.prob_normal);
+            tempprob_normal = tempprob_normal * probdatas.highfever_mttm.prob_normal;
+            tempprob_altered = tempprob_altered * probdatas.highfever_mttm.prob_altered;
+            // printf("\n TEST  2: %lf ", probdatas.highfever_mttm.prob_normal);
         }
         else if (dataset[i].hfdata == HIGH_FEVER_NO)
         {
-            tempprob_normal = tempprob_normal * probdatas.hfnone.prob_normal;
-            tempprob_altered = tempprob_altered * probdatas.hfnone.prob_altered;
-            // printf("\n TEST 3: %lf ", probdatas.hfnone.prob_normal);
+            tempprob_normal = tempprob_normal * probdatas.highfever_none.prob_normal;
+            tempprob_altered = tempprob_altered * probdatas.highfever_none.prob_altered;
+            // printf("\n TEST 3: %lf ", probdatas.highfever_none.prob_normal);
         }
 
         // ==============================
@@ -476,21 +476,21 @@ void *postprobcalc(features *dataset, Probability *probdataset, Probability_Err 
 
         if (dataset[i].shdata == SH_NEVER)
         {
-            tempprob_normal = tempprob_normal * probdatas.shabitnever.prob_normal;
-            tempprob_altered = tempprob_altered * probdatas.shabitnever.prob_altered;
-            // printf("\n TEST sh1 : %lf ", probdatas.shabitnever.prob_normal);
+            tempprob_normal = tempprob_normal * probdatas.smokehabit_never.prob_normal;
+            tempprob_altered = tempprob_altered * probdatas.smokehabit_never.prob_altered;
+            // printf("\n TEST sh1 : %lf ", probdatas.smokehabit_never.prob_normal);
         }
         else if (dataset[i].shdata == SH_OCCASIONALLY)
         {
-            tempprob_normal = tempprob_normal * probdatas.shabitocc.prob_normal;
-            tempprob_altered = tempprob_altered * probdatas.shabitocc.prob_altered;
-            // printf("\n TEST sh2 : %lf ", probdatas.shabitocc.prob_normal);
+            tempprob_normal = tempprob_normal * probdatas.smokehabit_occ.prob_normal;
+            tempprob_altered = tempprob_altered * probdatas.smokehabit_occ.prob_altered;
+            // printf("\n TEST sh2 : %lf ", probdatas.smokehabit_occ.prob_normal);
         }
         else if (dataset[i].shdata == SH_DAILY)
         {
-            tempprob_normal = tempprob_normal * probdatas.shabitdaily.prob_normal;
-            tempprob_altered = tempprob_altered * probdatas.shabitdaily.prob_altered;
-            // printf("\n TEST sh3 : %lf ", probdatas.shabitdaily.prob_normal);
+            tempprob_normal = tempprob_normal * probdatas.smokehabit_daily.prob_normal;
+            tempprob_altered = tempprob_altered * probdatas.smokehabit_daily.prob_altered;
+            // printf("\n TEST sh3 : %lf ", probdatas.smokehabit_daily.prob_normal);
         }
 
         // ==============================

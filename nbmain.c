@@ -28,8 +28,8 @@ int main(void)
     unsigned short datasetcounter = 0;
     unsigned short cmatrixctr = 0;
     float timespent;                                                     // Store execution time
-    features *fddata;                                                    // Fertility Diangnosis Data
-    features *tempfdata;                                                 // Temp Storage for Fertility Diangnosis Data
+    Features *fddata;                                                    // Fertility Diangnosis Data
+    Features *tempfdata;                                                 // Temp Storage for Fertility Diangnosis Data
     struct FeatureSet *priorprobres = malloc(sizeof(struct FeatureSet)); // Prior Probability
     if (priorprobres == NULL)
     {
@@ -152,6 +152,7 @@ void plot_array(Confusion_Matrix *cmatrixdata, int flen, int n)
     fprintf(p, "set term qt font 'Arial,12' \n");
     fprintf(p, "set xlabel 'Test Cases' \n");
     fprintf(p, "set ylabel 'Probability of Error' \n");
+    // lp : linepoints lc: linecolor
     fprintf(p, "plot '-' lc rgb '#199e27' with lp title 'Training Data' , '-' lc rgb 'blue' with lp title 'Test Data'\n");
     double xval = 0;
     double yval = 0;
