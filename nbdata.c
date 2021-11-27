@@ -38,36 +38,34 @@ int countlength(FILE *ifp, char *fpath)
     return lencount;
 }
 
-// ===============================
-// Function to Initialize Probability Structure to zero
-// ==============================
-Probability *inittozero()
-{
-    Probability results;
-    Probability *resultset = &results;
-    resultset->semen_diagnosis = (struct FeatureSet){.normal_count = 0, .altered_count = 0, .prob_normal = 0, .prob_altered = 0};
-    resultset->winter = (struct FeatureSet){.normal_count = 0, .altered_count = 0, .prob_normal = 0, .prob_altered = 0};
-    resultset->spring = (struct FeatureSet){.normal_count = 0, .altered_count = 0, .prob_normal = 0, .prob_altered = 0};
-    resultset->summer = (struct FeatureSet){.normal_count = 0, .altered_count = 0, .prob_normal = 0, .prob_altered = 0};
-    resultset->fall = (struct FeatureSet){.normal_count = 0, .altered_count = 0, .prob_normal = 0, .prob_altered = 0};
-    resultset->cdiseaseyes = (struct FeatureSet){.normal_count = 0, .altered_count = 0, .prob_normal = 0, .prob_altered = 0};
-    resultset->cdiseaseno = (struct FeatureSet){.normal_count = 0, .altered_count = 0, .prob_normal = 0, .prob_altered = 0};
-    resultset->accidenttrauma_yes = (struct FeatureSet){.normal_count = 0, .altered_count = 0, .prob_normal = 0, .prob_altered = 0};
-    resultset->accidenttrauma_no = (struct FeatureSet){.normal_count = 0, .altered_count = 0, .prob_normal = 0, .prob_altered = 0};
-    resultset->surgical_yes = (struct FeatureSet){.normal_count = 0, .altered_count = 0, .prob_normal = 0, .prob_altered = 0};
-    resultset->surgical_no = (struct FeatureSet){.normal_count = 0, .altered_count = 0, .prob_normal = 0, .prob_altered = 0};
-    resultset->highfever_lttm = (struct FeatureSet){.normal_count = 0, .altered_count = 0, .prob_normal = 0, .prob_altered = 0};
-    resultset->highfever_mttm = (struct FeatureSet){.normal_count = 0, .altered_count = 0, .prob_normal = 0, .prob_altered = 0};
-    resultset->highfever_none = (struct FeatureSet){.normal_count = 0, .altered_count = 0, .prob_normal = 0, .prob_altered = 0};
-    resultset->freqalchstd = (struct FeatureSet){.normal_count = 0, .altered_count = 0, .prob_normal = 0, .prob_altered = 0};
-    resultset->freqalchevery = (struct FeatureSet){.normal_count = 0, .altered_count = 0, .prob_normal = 0, .prob_altered = 0};
-    resultset->freqalchstw = (struct FeatureSet){.normal_count = 0, .altered_count = 0, .prob_normal = 0, .prob_altered = 0};
-    resultset->freqalchoaw = (struct FeatureSet){.normal_count = 0, .altered_count = 0, .prob_normal = 0, .prob_altered = 0};
-    resultset->freqalchhardly = (struct FeatureSet){.normal_count = 0, .altered_count = 0, .prob_normal = 0, .prob_altered = 0};
-    resultset->smokehabit_never = (struct FeatureSet){.normal_count = 0, .altered_count = 0, .prob_normal = 0, .prob_altered = 0};
-    resultset->smokehabit_occ = (struct FeatureSet){.normal_count = 0, .altered_count = 0, .prob_normal = 0, .prob_altered = 0};
-    resultset->smokehabit_daily = (struct FeatureSet){.normal_count = 0, .altered_count = 0, .prob_normal = 0, .prob_altered = 0};
-    resultset->ageanalysis = (struct featuresettn){.normal_count = 0, .altered_count = 0, .sum_normal = 0, .sum_altered = 0, .var_normal = 0, .var_altered = 0, .mean_normal = 0, .mean_altered = 0};
-    resultset->numhrsitptable = (struct featuresettn){.normal_count = 0, .altered_count = 0, .sum_normal = 0, .sum_altered = 0, .var_normal = 0, .var_altered = 0, .mean_normal = 0, .mean_altered = 0};
-    return resultset;
-}
+// int countlength(FILE *ifp, char *fpath)
+// {
+//     char *line_buf = NULL;
+//     size_t line_buf_size = 0;
+//     int line_count = 0;
+//     ssize_t line_size;
+//     ifp = fopen(fpath, "r");
+
+//     if (!ifp)
+//     {
+//         fprintf(stderr, "Error opening file '%s'\n", fpath);
+//         return EXIT_FAILURE;
+//     }
+
+//     /* Get the first line of the file. */
+//     //line_size = getline(&line_buf, &line_buf_size, ifp);
+
+//     /* Loop through until we are done with the file. */
+//     while ((line_size = getline(&line_buf, &line_buf_size, ifp)) != -1)
+//     {
+//         /* Increment our line count */
+//         ++line_count;
+//         //;
+//     }
+
+//     /* Free the allocated line buffer */
+//     free(line_buf);
+//     line_buf = NULL;
+//     fclose(ifp); // CLOSE FILE
+//     return line_count;
+// }

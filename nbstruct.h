@@ -1,7 +1,7 @@
 #ifndef ___nbstruct__
 #define ___nbstruct__
 
-#define PI 3.14159265359
+#define PI 3.14159265
 #define WINTER -1
 #define SPRING -0.33
 #define SUMMER 0.33
@@ -19,8 +19,7 @@
 #define SH_DAILY 1
 #define NORMAL_YES 0 // NORMAL / YES
 #define ALTERED_NO 1 // ALTERED / NO
-#define ALPHA 0.01
-
+#define ALPHA 0.001
 typedef struct
 {
     float soadata;                    // SEASON OF Analysis
@@ -57,7 +56,7 @@ struct featuresettn
     double mean_altered;        // Value of Mean
 };
 
-typedef struct probability
+typedef struct
 {
     struct FeatureSet semen_diagnosis;    // Semen Diagnosis Features
     struct FeatureSet winter;             // Season : Winter
@@ -94,19 +93,23 @@ typedef struct
     double prob_altered; // Probability of Altered
 } Probability_Err;
 
-typedef struct
+
+struct Confusion_Matrix
 {
     unsigned int data_count;
     unsigned int true_pos;  // True Positive : No of times predict correctly that patient is not normal
     unsigned int true_neg;  // True Negative : No of times predict wrongly that patient is normal
     unsigned int false_pos; // True Positive : No of times predict correctly that patient is not normal
     unsigned int false_neg; // True Negative : No of times predict wrongly that patient is normal
-    double accuracy;        // How often is it correctly : (TP+TN)/total
-    double misclass_rate;   // How often is it wrong : (FP+FN)/total equivalent to 1 minus Accuracy
     double true_posrate;    // When it's actually yes, how often does it predict yes? TP/actual yes
     double false_posrate;   // When it's actually yes, how often does it predict yes? FP/actual no
     double true_negrate;    // When it's actually no, how often does it predict no? TN/actual no == 1 - false_posrate
-    double precision;       // how often predicted is correct? TP/
     double prob_error;      // the probability of error, occurance of how many time the error occurred
-} Confusion_Matrix;
+};
+
+typedef struct
+{
+    struct Confusion_Matrix trg_cmatrix[5];
+    struct Confusion_Matrix tst_cmatrix[5];
+} Confusion_Matrix_Type;
 #endif
