@@ -19,7 +19,7 @@
 #define SH_DAILY 1
 #define NORMAL_YES 0 // NORMAL / YES
 #define ALTERED_NO 1 // ALTERED / NO
-#define ALPHA 0.001
+#define ALPHA 0.01
 typedef struct
 {
     float seasons;                    // SEASON OF Analysis

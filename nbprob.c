@@ -548,3 +548,47 @@ double gaussiancalc(double mean, double variance, double xval)
     result = (1 / sqrt(2 * PI)) * exp(-1 * (pow(zscore, 2) / (2 * variance)));
     return result;
 }
+
+
+// ==============================
+
+
+void plot_array(Confusion_Matrix_Type *cmatrixdata, int n)
+{
+
+    FILE *p = popen("gnuplot -persist", "w");
+    fprintf(p, "set title 'Chart for Probability of Error' \n");
+    fprintf(p, "set term qt font 'Arial,12' \n");
+    fprintf(p, "set xlabel 'Sample Size' \n");                      // Set X-axis Label
+    fprintf(p, "set ylabel 'Probability of Error %%' \n");          // Set Y-axis Label
+    fprintf(p, "set xrange [40:100] \n");                           // Set X-axis Range
+    fprintf(p, "set yrange [0:30] \n");                             // Set Y-axis Range
+    fprintf(p, "set style line 1 lc rgb 'blue' lt 1 lw 2 pt 7 \n"); // Line Style for training Data
+    fprintf(p, "set style line 2 lc rgb 'red' lt 1 lw 2 pt 6 \n");  // Set Y-axis Label
+
+    int xval = 0;
+    double yval = 0;
+    if (p != NULL)
+    {
+        fprintf(p, "$TRGDATA << EOD\n");
+        for (int i = 0; i < n; i++)
+        {
+            xval = cmatrixdata->trg_cmatrix[i].data_count;
+            yval = cmatrixdata->trg_cmatrix[i].prob_error * 100;
+            fprintf(p, "%d %g\n", xval, yval);
+        }
+        fprintf(p, "EOD\n");
+        fprintf(p, "$TSTDATA << EOD\n");
+        for (int k = n - 1; k >= 0; k--)
+        {
+            xval = cmatrixdata->trg_cmatrix[k].data_count;
+            yval = cmatrixdata->tst_cmatrix[k].prob_error * 100;
+            // If Test Data
+            fprintf(p, "%d %g\n", xval, yval);
+        }
+        fprintf(p, "EOD\n");
+    }
+    fprintf(p, "plot '$TRGDATA' with lp title 'Training Data' ls 1, '$TSTDATA' with lp title 'Test Data' ls 2\n");
+    fflush(p);
+    pclose(p);
+}

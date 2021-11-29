@@ -19,7 +19,7 @@ Features *storeData(FILE *ifp, char *fpath, int len)
     {
         data[rcount] = tempdata; //
         rcount++;
-    }
+    } 
 
     fclose(ifp); // CLOSE FILE
     return data;
@@ -37,35 +37,3 @@ int countlength(FILE *ifp, char *fpath)
     fclose(ifp); // CLOSE FILE
     return lencount;
 }
-
-// int countlength(FILE *ifp, char *fpath)
-// {
-//     char *line_buf = NULL;
-//     size_t line_buf_size = 0;
-//     int line_count = 0;
-//     ssize_t line_size;
-//     ifp = fopen(fpath, "r");
-
-//     if (!ifp)
-//     {
-//         fprintf(stderr, "Error opening file '%s'\n", fpath);
-//         return EXIT_FAILURE;
-//     }
-
-//     /* Get the first line of the file. */
-//     //line_size = getline(&line_buf, &line_buf_size, ifp);
-
-//     /* Loop through until we are done with the file. */
-//     while ((line_size = getline(&line_buf, &line_buf_size, ifp)) != -1)
-//     {
-//         /* Increment our line count */
-//         ++line_count;
-//         //;
-//     }
-
-//     /* Free the allocated line buffer */
-//     free(line_buf);
-//     line_buf = NULL;
-//     fclose(ifp); // CLOSE FILE
-//     return line_count;
-// }
