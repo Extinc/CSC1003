@@ -553,15 +553,15 @@ double gaussiancalc(double mean, double variance, double xval)
 // ==============================
 
 
-void plot_array(Confusion_Matrix_Type *cmatrixdata, int n)
+void plot_graph(Confusion_Matrix_Type *cmatrixdata, int n)
 {
 
     FILE *p = popen("gnuplot -persist", "w");
     fprintf(p, "set title 'Chart for Probability of Error' \n");
     fprintf(p, "set term qt font 'Arial,12' \n");
-    fprintf(p, "set xlabel 'Sample Size' \n");                      // Set X-axis Label
+    fprintf(p, "set xlabel 'Training Data Size' \n");                      // Set X-axis Label
     fprintf(p, "set ylabel 'Probability of Error %%' \n");          // Set Y-axis Label
-    fprintf(p, "set xrange [40:100] \n");                           // Set X-axis Range
+    //fprintf(p, "set xrange [40:100] \n");                           // Set X-axis Range
     fprintf(p, "set yrange [0:30] \n");                             // Set Y-axis Range
     fprintf(p, "set style line 1 lc rgb 'blue' lt 1 lw 2 pt 7 \n"); // Line Style for training Data
     fprintf(p, "set style line 2 lc rgb 'red' lt 1 lw 2 pt 6 \n");  // Set Y-axis Label
@@ -591,4 +591,36 @@ void plot_array(Confusion_Matrix_Type *cmatrixdata, int n)
     fprintf(p, "plot '$TRGDATA' with lp title 'Training Data' ls 1, '$TSTDATA' with lp title 'Test Data' ls 2\n");
     fflush(p);
     pclose(p);
+}
+
+void printmatrix(Confusion_Matrix_Type *cmatrixdata, int n){
+    
+    for (int i = 0; i < n; i++)
+    {
+        printf("\n=========================================================================");
+        printf("\n||                          TRAINING DATA                              ||");
+        printf("\n||                                %d                                   ||", cmatrixdata->trg_cmatrix[i].data_count);
+        printf("\n=========================================================================");
+        printf("\n                     ||    PREDICTED ALTERED        PREDICTED NORMAL  ");
+        printf("\n---------------------||--------------------------------------------------");
+        printf("\n    ACTUAL ALTERED   ||           TP : %d                FN : %d           ", cmatrixdata->trg_cmatrix[i].true_pos, cmatrixdata->trg_cmatrix[i].false_neg);
+        printf("\n---------------------||--------------------------------------------------");
+        printf("\n    ACTUAL NORMAL    ||           FP : %d                TN : %d          ", cmatrixdata->trg_cmatrix[i].false_pos, cmatrixdata->trg_cmatrix[i].true_neg);
+        printf("\n=========================================================================");
+        printf("\n  Prob error  :   %lf", cmatrixdata->trg_cmatrix[i].prob_error);
+        printf("\n=========================================================================");
+        printf("\n");
+        printf("\n=========================================================================");
+        printf("\n||                            TEST DATA                                ||");
+        printf("\n||                                %d                                   ||", cmatrixdata->tst_cmatrix[i].data_count);
+        printf("\n=========================================================================");
+        printf("\n                     ||    PREDICTED ALTERED        PREDICTED NORMAL  ");
+        printf("\n---------------------||--------------------------------------------------");
+        printf("\n    ACTUAL ALTERED   ||           TP : %d                FN : %d           ", cmatrixdata->tst_cmatrix[i].true_pos, cmatrixdata->tst_cmatrix[i].false_neg);
+        printf("\n---------------------||--------------------------------------------------");
+        printf("\n    ACTUAL NORMAL    ||           FP : %d                TN : %d          ", cmatrixdata->tst_cmatrix[i].false_pos, cmatrixdata->tst_cmatrix[i].true_neg);
+        printf("\n=========================================================================");
+        printf("\n Prob error :   %lf", cmatrixdata->tst_cmatrix[i].prob_error);
+        printf("\n=========================================================================");
+    }
 }
