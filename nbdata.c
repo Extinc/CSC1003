@@ -13,7 +13,7 @@ Features *storeData(FILE *ifp, char *fpath, int len)
     }
     unsigned int rcount = 0; // file num of row counter & index count
 
-    data = (Features *)malloc(len & sizeof(Features));
+    data = (Features *)malloc(len * sizeof(Features));
 
     while (fscanf(ifp, "%f%*[,] %lf%*[,] %hd%*[,] %hd%*[,] %hd%*[,] %hd%*[,] %f%*[,] %hd%*[,] %lf%*[,] %hd%*[,]", &tempdata.seasons, &tempdata.ageanalysis, &tempdata.childish_disease, &tempdata.trauma, &tempdata.surgical, &tempdata.high_fever, &tempdata.alc_consumpfreq, &tempdata.smoking_habit, &tempdata.numhrsit_pertable, &tempdata.semen_diag) != EOF)
     {
