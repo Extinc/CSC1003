@@ -44,7 +44,7 @@ struct FeatureSet
 };
 
 // Features for Age and Number of Hours Spend sitting per day
-struct featuresettn
+struct FeatureSetGauss
 {
     unsigned int normal_count;  // Number of Normal
     unsigned int altered_count; // Number of altered
@@ -80,15 +80,14 @@ typedef struct
     struct FeatureSet smokehabit_never;   // Smoking Habit : Never
     struct FeatureSet smokehabit_occ;     // Smoking Habit : Occasionally
     struct FeatureSet smokehabit_daily;   // Smoking Habit : Daily
-    struct featuresettn ageanalysis;      // Age of Analysis
-    struct featuresettn numhrsit_ptable;   // Number of hours sitting per table
+    struct FeatureSetGauss ageanalysis;      // Age of Analysis
+    struct FeatureSetGauss numhrsit_ptable;   // Number of hours sitting per table
 } Probability;
 
 typedef struct
 {
     short actual_nora;    // Actual Normal or Altered
     short predicted_nora; // predicted Normal Or Altered :  Y | 0 = Normal or Y | 1 = Altered
-    int err_count;
     double prob_normal;  // Probability of Normal
     double prob_altered; // Probability of Altered
 } Probability_Err;
