@@ -15,7 +15,7 @@ Features *storeData(FILE *ifp, char *fpath, int len)
 
     data = (Features *)malloc(len & sizeof(Features));
 
-    while (fscanf(ifp, "%f%*[,] %lf%*[,] %hd%*[,] %hd%*[,] %hd%*[,] %hd%*[,] %f%*[,] %hd%*[,] %lf%*[,] %hd%*[,]", &tempdata.soadata, &tempdata.aoadata, &tempdata.cddata, &tempdata.atdata, &tempdata.sidata, &tempdata.hfdata, &tempdata.alcconsumptdata, &tempdata.shdata, &tempdata.numhrsitdata, &tempdata.semendiagdata) != EOF)
+    while (fscanf(ifp, "%f%*[,] %lf%*[,] %hd%*[,] %hd%*[,] %hd%*[,] %hd%*[,] %f%*[,] %hd%*[,] %lf%*[,] %hd%*[,]", &tempdata.seasons, &tempdata.ageanalysis, &tempdata.childish_disease, &tempdata.trauma, &tempdata.surgical, &tempdata.high_fever, &tempdata.alc_consumpfreq, &tempdata.smoking_habit, &tempdata.numhrsit_pertable, &tempdata.semen_diag) != EOF)
     {
         data[rcount] = tempdata; //
         rcount++;

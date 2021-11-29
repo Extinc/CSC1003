@@ -1,7 +1,7 @@
 // =============================================================================
 // naivebayes.c
 // Assignment main program 2 with structures
-// 1003 grp????
+// 1003
 // =============================================================================
 
 #include <stdio.h>
@@ -16,7 +16,7 @@
 #define LEN(x) sizeof(x) / sizeof(x[0])
 
 void plot_array(Confusion_Matrix_Type *cmatrixdata, int n);
-//Probability condprobinit;
+
 int main(void);
 int main(void)
 {
@@ -48,7 +48,7 @@ int main(void)
         printf("Memory not allocated");
     }
 
-    char *fpath = "fertility_Diagnosis_Data_Group9_11.txt"; // File Path
+    char *fpath = "fertility_Diagnosis_Data_Group1_4.txt"; // File Path
     // ------------------------------------------------------------------------------------------------
     clock_t tstart = clock();      // START TIMER
     flen = countlength(fp, fpath); // store the length count
@@ -154,14 +154,12 @@ void plot_array(Confusion_Matrix_Type *cmatrixdata, int n)
     fprintf(p, "set term qt font 'Arial,12' \n");
     fprintf(p, "set xlabel 'Sample Size' \n");             // Set X-axis Label
     fprintf(p, "set ylabel 'Probability of Error %%' \n"); // Set Y-axis Label
-    fprintf(p, "set xrange [40:100] \n");                  // Set Y-axis Label
-    fprintf(p, "set yrange [0:30] \n");                    // Set Y-axis Label
-    // lp : linepoints lc: linecolor
-    fprintf(p, "set format y '%%.2f' \n"); // Set Y-axis Label
-    fprintf(p, "set style line 1 lc rgb 'blue' lt 1 lw 2 pt 6 \n"); // Set Y-axis Label
+    fprintf(p, "set xrange [40:100] \n");                  // Set X-axis Range
+    fprintf(p, "set yrange [0:30] \n");                    // Set Y-axis Range
+    fprintf(p, "set style line 1 lc rgb 'blue' lt 1 lw 2 pt 7 \n"); // Line Style for training Data
     fprintf(p, "set style line 2 lc rgb 'red' lt 1 lw 2 pt 6 \n");  // Set Y-axis Label
 
-    double xval = 0;
+    int xval = 0;
     double yval = 0;
     if (p != NULL)
     {
@@ -170,16 +168,16 @@ void plot_array(Confusion_Matrix_Type *cmatrixdata, int n)
         {
             xval = cmatrixdata->trg_cmatrix[i].data_count;
             yval = cmatrixdata->trg_cmatrix[i].prob_error * 100;
-            fprintf(p, "%g %g\n", xval, yval);
+            fprintf(p, "%d %g\n", xval, yval);
         }
         fprintf(p, "EOD\n");
         fprintf(p, "$TSTDATA << EOD\n");
-        for (int k = n - 1; k > 0; k--)
+        for (int k = n - 1; k >= 0; k--)
         {
             xval = cmatrixdata->trg_cmatrix[k].data_count;
             yval = cmatrixdata->tst_cmatrix[k].prob_error * 100;
             // If Test Data
-            fprintf(p, "%g %g\n", xval, yval);
+            fprintf(p, "%d %g\n", xval, yval);
         }
         fprintf(p, "EOD\n");
     }

@@ -22,16 +22,16 @@
 #define ALPHA 0.001
 typedef struct
 {
-    float soadata;                    // SEASON OF Analysis
-    double aoadata;                   // Age of Analysis
-    unsigned short int cddata;        // Childish Disease
-    unsigned short int atdata;        // Accident / Serious Trauma
-    unsigned short int sidata;        // Surgical Intervention
-    short int hfdata;                 // High Fever Last Year
-    float alcconsumptdata;            // Freuqnce of alcohol consumption
-    short int shdata;                 // smoking habit
-    double numhrsitdata;              // Number of hours spent sitting per table
-    unsigned short int semendiagdata; // Semen Diagnosis
+    float seasons;                    // SEASON OF Analysis
+    double ageanalysis;                   // Age of Analysis
+    unsigned short int childish_disease;        // Childish Disease
+    unsigned short int trauma;        // Accident / Serious Trauma
+    unsigned short int surgical;        // Surgical Intervention
+    short int high_fever;                 // High Fever Last Year
+    float alc_consumpfreq;            // Freuqnce of alcohol consumption
+    short int smoking_habit;                 // smoking habit
+    double numhrsit_pertable;              // Number of hours spent sitting per table
+    unsigned short int semen_diag; // Semen Diagnosis
 } Features;
 
 // Features struct except for Age and Number of Hours Spend sitting per day
@@ -63,8 +63,8 @@ typedef struct
     struct FeatureSet spring;             // Season : Spring
     struct FeatureSet summer;             // Season : Summer
     struct FeatureSet fall;               // Season : Fall
-    struct FeatureSet cdiseaseyes;        // Childish Disease Yes
-    struct FeatureSet cdiseaseno;         // Childish Disease No
+    struct FeatureSet cdisease_yes;        // Childish Disease Yes
+    struct FeatureSet cdisease_no;         // Childish Disease No
     struct FeatureSet accidenttrauma_yes; // Accident / Serious Trauma YES
     struct FeatureSet accidenttrauma_no;  // Accident / Serious Trauma NO
     struct FeatureSet surgical_yes;       // Surgical Intervention YES
@@ -72,16 +72,16 @@ typedef struct
     struct FeatureSet highfever_lttm;     // High Fever last Year : Less than 3 mths ago
     struct FeatureSet highfever_mttm;     // High Fever last Year : More than 3 mths ago
     struct FeatureSet highfever_none;     // High Fever last Year : NO
-    struct FeatureSet freqalchstd;        // Frequency of alcohol : Several times a day
-    struct FeatureSet freqalchevery;      // Frequency of alcohol : Every day
-    struct FeatureSet freqalchstw;        // Frequency of alcohol : Several times a week
-    struct FeatureSet freqalchoaw;        // Frequency of alcohol : Once a week
-    struct FeatureSet freqalchhardly;     // Frequency of alcohol : hardly or never
+    struct FeatureSet freqalch_std;        // Frequency of alcohol : Several times a day
+    struct FeatureSet freqalch_every;      // Frequency of alcohol : Every day
+    struct FeatureSet freqalch_stw;        // Frequency of alcohol : Several times a week
+    struct FeatureSet freqalch_oaw;        // Frequency of alcohol : Once a week
+    struct FeatureSet freqalch_hardly;     // Frequency of alcohol : hardly or never
     struct FeatureSet smokehabit_never;   // Smoking Habit : Never
     struct FeatureSet smokehabit_occ;     // Smoking Habit : Occasionally
     struct FeatureSet smokehabit_daily;   // Smoking Habit : Daily
     struct featuresettn ageanalysis;      // Age of Analysis
-    struct featuresettn numhrsitptable;   // Number of hours sitting per table
+    struct featuresettn numhrsit_ptable;   // Number of hours sitting per table
 } Probability;
 
 typedef struct
@@ -101,10 +101,7 @@ struct Confusion_Matrix
     unsigned int true_neg;  // True Negative : No of times predict wrongly that patient is normal
     unsigned int false_pos; // True Positive : No of times predict correctly that patient is not normal
     unsigned int false_neg; // True Negative : No of times predict wrongly that patient is normal
-    double true_posrate;    // When it's actually yes, how often does it predict yes? TP/actual yes
-    double false_posrate;   // When it's actually yes, how often does it predict yes? FP/actual no
-    double true_negrate;    // When it's actually no, how often does it predict no? TN/actual no == 1 - false_posrate
-    double prob_error;      // the probability of error, occurance of how many time the error occurred
+    float prob_error;      // the probability of error, occurance of how many time the error occurred
 };
 
 typedef struct
