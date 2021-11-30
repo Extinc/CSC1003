@@ -41,26 +41,26 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
     resultset->semen_diagnosis = temp;
     for (int i = 0; i < rowcount; i++)
     {
-        if (dataset[i].semen_diag == NORMAL_YES)
+        if ((*(dataset+i)).semen_diag == NORMAL_YES)
         {
-            if (dataset[i].seasons == WINTER)
+            if ((*(dataset+i)).seasons == WINTER)
             {
                 resultset->winter.normal_count += 1;
             }
-            else if (dataset[i].seasons == (float)SPRING)
+            else if ((*(dataset+i)).seasons == (float)SPRING)
             {
                 resultset->spring.normal_count += 1;
             }
-            else if (dataset[i].seasons == (float)SUMMER)
+            else if ((*(dataset+i)).seasons == (float)SUMMER)
             {
                 resultset->summer.normal_count += 1;
             }
-            else if (dataset[i].seasons == (float)FALL)
+            else if ((*(dataset+i)).seasons == (float)FALL)
             {
                 resultset->fall.normal_count += 1;
             }
             // ==============================
-            if (dataset[i].childish_disease == NORMAL_YES)
+            if ((*(dataset+i)).childish_disease == NORMAL_YES)
             {
                 resultset->cdisease_yes.normal_count += 1;
             }
@@ -69,7 +69,7 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
                 resultset->cdisease_no.normal_count += 1;
             }
             // ==============================
-            if (dataset[i].trauma == NORMAL_YES)
+            if ((*(dataset+i)).trauma == NORMAL_YES)
             {
                 resultset->trauma_yes.normal_count += 1;
             }
@@ -78,7 +78,7 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
                 resultset->trauma_no.normal_count += 1;
             }
             // ==============================
-            if (dataset[i].surgical == NORMAL_YES)
+            if ((*(dataset+i)).surgical == NORMAL_YES)
             {
                 resultset->surgical_yes.normal_count += 1;
             }
@@ -87,81 +87,81 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
                 resultset->surgical_no.normal_count += 1;
             }
             // ==============================
-            if (dataset[i].high_fever == HIGH_FEVER_LESSTHAN)
+            if ((*(dataset+i)).high_fever == HIGH_FEVER_LESSTHAN)
             {
                 resultset->highfever_lttm.normal_count += 1;
             }
-            else if (dataset[i].high_fever == HIGH_FEVER_MORETHAN)
+            else if ((*(dataset+i)).high_fever == HIGH_FEVER_MORETHAN)
             {
                 resultset->highfever_mttm.normal_count += 1;
             }
-            else if (dataset[i].high_fever == HIGH_FEVER_NO)
+            else if ((*(dataset+i)).high_fever == HIGH_FEVER_NO)
             {
                 resultset->highfever_none.normal_count += 1;
             }
             // ==============================
-            if (dataset[i].alc_consumpfreq == SERVERAL_A_DAY)
+            if ((*(dataset+i)).alc_consumpfreq == SERVERAL_A_DAY)
             {
                 resultset->freqalch_std.normal_count += 1;
             }
-            else if (dataset[i].alc_consumpfreq == EVERY_DAY)
+            else if ((*(dataset+i)).alc_consumpfreq == EVERY_DAY)
             {
                 resultset->freqalch_every.normal_count += 1;
             }
-            else if (dataset[i].alc_consumpfreq == SERVERAL_A_WEEK)
+            else if ((*(dataset+i)).alc_consumpfreq == SERVERAL_A_WEEK)
             {
                 resultset->freqalch_stw.normal_count += 1;
             }
-            else if (dataset[i].alc_consumpfreq == ONCE_A_WEEK)
+            else if ((*(dataset+i)).alc_consumpfreq == ONCE_A_WEEK)
             {
                 resultset->freqalch_oaw.normal_count += 1;
             }
-            else if (dataset[i].alc_consumpfreq == HARDLY_NEVER)
+            else if ((*(dataset+i)).alc_consumpfreq == HARDLY_NEVER)
             {
                 resultset->freqalch_hardly.normal_count += 1;
             }
 
             // ==============================
 
-            if (dataset[i].smoking_habit == SH_NEVER)
+            if ((*(dataset+i)).smoking_habit == SH_NEVER)
             {
                 resultset->smokehabit_never.normal_count += 1;
             }
-            else if (dataset[i].smoking_habit == SH_OCCASIONALLY)
+            else if ((*(dataset+i)).smoking_habit == SH_OCCASIONALLY)
             {
                 resultset->smokehabit_occ.normal_count += 1;
             }
-            else if (dataset[i].smoking_habit == SH_DAILY)
+            else if ((*(dataset+i)).smoking_habit == SH_DAILY)
             {
                 resultset->smokehabit_daily.normal_count += 1;
             }
 
             // ==============================
-            resultset->ageanalysis.sum_normal += dataset[i].ageanalysis;
+            resultset->ageanalysis.sum_normal += (*(dataset+i)).ageanalysis;
             resultset->ageanalysis.normal_count += 1;
-            resultset->sitting_hours.sum_normal += dataset[i].sitting_duration;
+            resultset->sitting_hours.sum_normal += (*(dataset+i)).sitting_duration;
             resultset->sitting_hours.normal_count += 1;
         }
         else
         {
-            if (dataset[i].seasons == WINTER)
+            if ((*(dataset+i)).seasons == WINTER)
             {
                 resultset->winter.altered_count += 1;
             }
-            else if (dataset[i].seasons == (float)SPRING)
+            else if ((*(dataset+i)).seasons == (float)SPRING)
             {
                 resultset->spring.altered_count += 1;
             }
-            else if (dataset[i].seasons == (float)SUMMER)
+            else if ((*(dataset+i)).seasons == (float)SUMMER)
             {
                 resultset->summer.altered_count += 1;
             }
-            else if (dataset[i].seasons == (float)FALL)
+            else if ((*(dataset+i)).seasons == (float)FALL)
             {
                 resultset->fall.altered_count += 1;
             }
             // ==============================
-            if (dataset[i].childish_disease == NORMAL_YES)
+            if ((*(dataset+i)).childish_disease == NORMAL_YES)
             {
                 resultset->cdisease_yes.altered_count += 1;
             }
@@ -170,7 +170,7 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
                 resultset->cdisease_no.altered_count += 1;
             }
             // ==============================
-            if (dataset[i].trauma == NORMAL_YES)
+            if ((*(dataset+i)).trauma == NORMAL_YES)
             {
                 resultset->trauma_yes.altered_count += 1;
             }
@@ -179,7 +179,7 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
                 resultset->trauma_no.altered_count += 1;
             }
             // ==============================
-            if (dataset[i].surgical == NORMAL_YES)
+            if ((*(dataset+i)).surgical == NORMAL_YES)
             {
                 resultset->surgical_yes.altered_count += 1;
             }
@@ -188,61 +188,61 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
                 resultset->surgical_no.altered_count += 1;
             }
             // ==============================
-            if (dataset[i].high_fever == HIGH_FEVER_LESSTHAN)
+            if ((*(dataset+i)).high_fever == HIGH_FEVER_LESSTHAN)
             {
                 resultset->highfever_lttm.altered_count += 1;
             }
-            else if (dataset[i].high_fever == HIGH_FEVER_MORETHAN)
+            else if ((*(dataset+i)).high_fever == HIGH_FEVER_MORETHAN)
             {
                 resultset->highfever_mttm.altered_count += 1;
             }
-            else if (dataset[i].high_fever == HIGH_FEVER_NO)
+            else if ((*(dataset+i)).high_fever == HIGH_FEVER_NO)
             {
 
                 resultset->highfever_none.altered_count += 1;
             }
             // ==============================
-            if (dataset[i].alc_consumpfreq == SERVERAL_A_DAY)
+            if ((*(dataset+i)).alc_consumpfreq == SERVERAL_A_DAY)
             {
                 resultset->freqalch_std.altered_count += 1;
             }
-            else if (dataset[i].alc_consumpfreq == (float)EVERY_DAY)
+            else if ((*(dataset+i)).alc_consumpfreq == (float)EVERY_DAY)
             {
                 resultset->freqalch_every.altered_count += 1;
             }
-            else if (dataset[i].alc_consumpfreq == (float)SERVERAL_A_WEEK)
+            else if ((*(dataset+i)).alc_consumpfreq == (float)SERVERAL_A_WEEK)
             {
                 resultset->freqalch_stw.altered_count += 1;
             }
-            else if (dataset[i].alc_consumpfreq == (float)ONCE_A_WEEK)
+            else if ((*(dataset+i)).alc_consumpfreq == (float)ONCE_A_WEEK)
             {
                 resultset->freqalch_oaw.altered_count += 1;
             }
-            else if (dataset[i].alc_consumpfreq == HARDLY_NEVER)
+            else if ((*(dataset+i)).alc_consumpfreq == HARDLY_NEVER)
             {
                 resultset->freqalch_hardly.altered_count += 1;
             }
 
             // ==============================
 
-            if (dataset[i].smoking_habit == SH_NEVER)
+            if ((*(dataset+i)).smoking_habit == SH_NEVER)
             {
 
                 resultset->smokehabit_never.altered_count += 1;
             }
-            else if (dataset[i].smoking_habit == SH_OCCASIONALLY)
+            else if ((*(dataset+i)).smoking_habit == SH_OCCASIONALLY)
             {
                 resultset->smokehabit_occ.altered_count += 1;
             }
-            else if (dataset[i].smoking_habit == SH_DAILY)
+            else if ((*(dataset+i)).smoking_habit == SH_DAILY)
             {
                 resultset->smokehabit_daily.altered_count += 1;
             }
             // ==============================
-            resultset->ageanalysis.sum_altered += dataset[i].ageanalysis;
+            resultset->ageanalysis.sum_altered += (*(dataset+i)).ageanalysis;
             resultset->ageanalysis.altered_count += 1;
 
-            resultset->sitting_hours.sum_altered += dataset[i].sitting_duration;
+            resultset->sitting_hours.sum_altered += (*(dataset+i)).sitting_duration;
             resultset->sitting_hours.altered_count += 1;
         }
     }
@@ -310,13 +310,13 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
     {
         if (dataset[j].semen_diag == NORMAL_YES)
         {
-            resultset->ageanalysis.var_normal += pow((dataset[j].ageanalysis - (resultset->ageanalysis.mean_normal)), 2);
-            resultset->sitting_hours.var_normal += pow((dataset[j].sitting_duration - (resultset->sitting_hours.mean_normal)), 2);
+            resultset->ageanalysis.var_normal += pow(((*(dataset+j)).ageanalysis - (resultset->ageanalysis.mean_normal)), 2);
+            resultset->sitting_hours.var_normal += pow(((*(dataset+j)).sitting_duration - (resultset->sitting_hours.mean_normal)), 2);
         }
         else if (dataset[j].semen_diag == ALTERED_NO)
         {
-            resultset->ageanalysis.var_altered += pow((dataset[j].ageanalysis - (resultset->ageanalysis.mean_altered)), 2);
-            resultset->sitting_hours.var_altered += pow((dataset[j].sitting_duration - (resultset->sitting_hours.mean_altered)), 2);
+            resultset->ageanalysis.var_altered += pow(((*(dataset+j)).ageanalysis - (resultset->ageanalysis.mean_altered)), 2);
+            resultset->sitting_hours.var_altered += pow(((*(dataset+j)).sitting_duration - (resultset->sitting_hours.mean_altered)), 2);
         }
     }
     resultset->ageanalysis.var_normal /= (double)(normcount);
