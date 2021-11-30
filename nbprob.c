@@ -510,10 +510,12 @@ void *cmatrix(Probability_Err *postprobdata, struct Confusion_Matrix *resultset,
         {
             if ((*(postprobdata + i)).actual_nora == 1 && (*(postprobdata + i)).predicted_nora == 1)
             {
+                // No of times predict correctly that a patient is not normal
                 (*(resultset + index)).true_pos += 1;
             }
             else if ((*(postprobdata + i)).actual_nora == 0 && (*(postprobdata + i)).predicted_nora == 0)
             {
+                // No of times predict correctly that a patient is normal
                 (*(resultset + index)).true_neg += 1;
             }
         }
@@ -521,11 +523,13 @@ void *cmatrix(Probability_Err *postprobdata, struct Confusion_Matrix *resultset,
         {
             if ((*(postprobdata + i)).actual_nora == 0 && (*(postprobdata + i)).predicted_nora == 1)
             {
+                // No of times predict wrongly that patient is not normal but patient is actually normal
                 (*(resultset + index)).false_pos += 1;
             }
 
             if ((*(postprobdata + i)).actual_nora == 1 && (*(postprobdata + i)).predicted_nora == 0)
             {
+                // No of times predict wrongly that patient is normal but patient is actually not normal
                 (*(resultset + index)).false_neg += 1;
             }
             (*(resultset + index)).prob_error += 1;
@@ -552,17 +556,18 @@ void plot_graph(Confusion_Matrix_Type *cmatrixdata, int n)
 {
 
     FILE *p = popen("gnuplot -persist", "w");
-    fprintf(p, "set title 'Chart for Probability of Error' \n");
-    fprintf(p, "set term qt font 'Arial,12' \n");
+    fprintf(p, "set title 'Chart for Probability of Error' \n");    // Set title for GNUPLOT
+    fprintf(p, "set term qt font 'Arial,12' \n");                   // Set font for gnu plot
     fprintf(p, "set xlabel 'Training Data Size' \n");               // Set X-axis Label
     fprintf(p, "set ylabel 'Probability of Error %%' \n");          // Set Y-axis Label
-    fprintf(p, "set style line 1 lc rgb 'blue' lt 1 lw 2 pt 7 \n"); // Line Style for training Data
+    fprintf(p, "set style line 1 lc rgb 'blue' lt 1 lw 2 pt 7 \n"); // Line Style for training Data lt: LineTypes lw: LineWidth LC: LineCOlor
     fprintf(p, "set style line 2 lc rgb 'red' lt 1 lw 2 pt 6 \n");  // Set Y-axis Label
 
     int xval = 0;
     double yval = 0;
     if (p != NULL)
     {
+        // Line Plot for Training Data
         fprintf(p, "$TRGDATA << EOD\n");
         for (int i = 0; i < n; i++)
         {
@@ -571,6 +576,8 @@ void plot_graph(Confusion_Matrix_Type *cmatrixdata, int n)
             fprintf(p, "%d %g\n", xval, yval);
         }
         fprintf(p, "EOD\n");
+
+        // Line Plot for Test Data
         fprintf(p, "$TSTDATA << EOD\n");
         for (int k = n - 1; k >= 0; k--)
         {
@@ -581,6 +588,7 @@ void plot_graph(Confusion_Matrix_Type *cmatrixdata, int n)
         }
         fprintf(p, "EOD\n");
     }
+    // To plot the graph with data from the above lp : LinePoint ls: LineStyle
     fprintf(p, "plot '$TRGDATA' with lp title 'Training Data' ls 1, '$TSTDATA' with lp title 'Test Data' ls 2\n");
     fflush(p);
     pclose(p);

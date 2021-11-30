@@ -100,18 +100,14 @@ int main(void)
     free(fddata);
     free(condprobres);
     free(postprob);
-    // ------------------------------------------------------------------------------------------------
 
-    // ------------------------------------------------------------------------------------------------
     // PRINT OUT FOR CONFUSION MATRIX : // POSITIVE : NOT NORMAL    NEGATIVE : NORMAL
-    // ------------------------------------------------------------------------------------------------
     printmatrix(cmatrixdata, 5);
     // To Plot the Graph
     plot_graph(cmatrixdata, 5);
 
     // Free the memory storing confusion matrix data
     free(cmatrixdata);
-    // ------------------------------------------------------------------------------------------------
 
     // Functions end before timer end
 
