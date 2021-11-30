@@ -65,8 +65,8 @@ typedef struct
     struct FeatureSet fall;                 // Season : Fall
     struct FeatureSet cdisease_yes;         // Childish Disease Yes
     struct FeatureSet cdisease_no;          // Childish Disease No
-    struct FeatureSet accidenttrauma_yes;   // Accident / Serious Trauma YES
-    struct FeatureSet accidenttrauma_no;    // Accident / Serious Trauma NO
+    struct FeatureSet trauma_yes;   // Accident / Serious Trauma YES
+    struct FeatureSet trauma_no;    // Accident / Serious Trauma NO
     struct FeatureSet surgical_yes;         // Surgical Intervention YES
     struct FeatureSet surgical_no;          // Surgical Intervention NO
     struct FeatureSet highfever_lttm;       // High Fever last Year : Less than 3 mths ago

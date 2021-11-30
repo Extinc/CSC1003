@@ -71,11 +71,11 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
             // ==============================
             if (dataset[i].trauma == NORMAL_YES)
             {
-                resultset->accidenttrauma_yes.normal_count += 1;
+                resultset->trauma_yes.normal_count += 1;
             }
             else
             {
-                resultset->accidenttrauma_no.normal_count += 1;
+                resultset->trauma_no.normal_count += 1;
             }
             // ==============================
             if (dataset[i].surgical == NORMAL_YES)
@@ -172,11 +172,11 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
             // ==============================
             if (dataset[i].trauma == NORMAL_YES)
             {
-                resultset->accidenttrauma_yes.altered_count += 1;
+                resultset->trauma_yes.altered_count += 1;
             }
             else
             {
-                resultset->accidenttrauma_no.altered_count += 1;
+                resultset->trauma_no.altered_count += 1;
             }
             // ==============================
             if (dataset[i].surgical == NORMAL_YES)
@@ -257,8 +257,8 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
     resultset->fall.prob_normal = (double)(resultset->fall.normal_count + ALPHA) / (normcount + (4 * ALPHA));
     resultset->cdisease_yes.prob_normal = (double)(resultset->cdisease_yes.normal_count + ALPHA) / (normcount + (2 * ALPHA));
     resultset->cdisease_no.prob_normal = (double)(resultset->cdisease_no.normal_count + ALPHA) / (normcount + (2 * ALPHA));
-    resultset->accidenttrauma_yes.prob_normal = (double)(resultset->accidenttrauma_yes.normal_count + ALPHA) / (normcount + (2 * ALPHA));
-    resultset->accidenttrauma_no.prob_normal = (double)(resultset->accidenttrauma_no.normal_count + ALPHA) / (normcount + (2 * ALPHA));
+    resultset->trauma_yes.prob_normal = (double)(resultset->trauma_yes.normal_count + ALPHA) / (normcount + (2 * ALPHA));
+    resultset->trauma_no.prob_normal = (double)(resultset->trauma_no.normal_count + ALPHA) / (normcount + (2 * ALPHA));
     resultset->surgical_yes.prob_normal = (double)(resultset->surgical_yes.normal_count + ALPHA) / (normcount + (2 * ALPHA));
     resultset->surgical_no.prob_normal = (double)(resultset->surgical_no.normal_count + ALPHA) / (normcount + (2 * ALPHA));
     //
@@ -289,8 +289,8 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
     resultset->fall.prob_altered = (double)(resultset->fall.altered_count + ALPHA) / (altcount + (4 * ALPHA));
     resultset->cdisease_yes.prob_altered = (double)(resultset->cdisease_yes.altered_count + ALPHA) / (altcount + (2 * ALPHA));
     resultset->cdisease_no.prob_altered = (double)(resultset->cdisease_no.altered_count + ALPHA) / (altcount + (2 * ALPHA));
-    resultset->accidenttrauma_yes.prob_altered = (double)(resultset->accidenttrauma_yes.altered_count + ALPHA) / (altcount + (2 * ALPHA));
-    resultset->accidenttrauma_no.prob_altered = (double)(resultset->accidenttrauma_no.altered_count + ALPHA) / (altcount + (2 * ALPHA));
+    resultset->trauma_yes.prob_altered = (double)(resultset->trauma_yes.altered_count + ALPHA) / (altcount + (2 * ALPHA));
+    resultset->trauma_no.prob_altered = (double)(resultset->trauma_no.altered_count + ALPHA) / (altcount + (2 * ALPHA));
     resultset->surgical_yes.prob_altered = (double)(resultset->surgical_yes.altered_count + ALPHA) / (altcount + (2 * ALPHA));
     resultset->surgical_no.prob_altered = (double)(resultset->surgical_no.altered_count + ALPHA) / (altcount + (2 * ALPHA));
     resultset->highfever_lttm.prob_altered = (double)(resultset->highfever_lttm.altered_count + ALPHA) / (altcount + (3 * ALPHA));
@@ -321,11 +321,11 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
             resultset->numhrsit_ptable.var_altered += pow((dataset[j].numhrsit_pertable - (resultset->numhrsit_ptable.mean_altered)), 2);
         }
     }
-    resultset->ageanalysis.var_normal /= (double)(normcount );
-    resultset->numhrsit_ptable.var_normal /= (double)(normcount );
-    resultset->ageanalysis.var_altered /= (double)(altcount );
-    resultset->numhrsit_ptable.var_altered /= (double)(altcount );
-    return 0;
+    resultset->ageanalysis.var_normal /= (double)(normcount);
+    resultset->numhrsit_ptable.var_normal /= (double)(normcount);
+    resultset->ageanalysis.var_altered /= (double)(altcount);
+    resultset->numhrsit_ptable.var_altered /= (double)(altcount);
+
 }
 
 // =============================================================================
@@ -378,13 +378,13 @@ void *postprobcalc(Features *dataset, struct FeatureSet *fsetdatas, Probability 
         // ==============================
         if (dataset[i].trauma == NORMAL_YES)
         {
-            tempprob_normal *= probdatas.accidenttrauma_yes.prob_normal;
-            tempprob_altered *= probdatas.accidenttrauma_yes.prob_altered;
+            tempprob_normal *= probdatas.trauma_yes.prob_normal;
+            tempprob_altered *= probdatas.trauma_yes.prob_altered;
         }
         else
         {
-            tempprob_normal *= probdatas.accidenttrauma_no.prob_normal;
-            tempprob_altered *= probdatas.accidenttrauma_no.prob_altered;
+            tempprob_normal *= probdatas.trauma_no.prob_normal;
+            tempprob_altered *= probdatas.trauma_no.prob_altered;
         }
         // ==============================
 
@@ -478,8 +478,6 @@ void *postprobcalc(Features *dataset, struct FeatureSet *fsetdatas, Probability 
         resultset[i].actual_nora = dataset[i].semen_diag;
         tempprob_normal =(tempprob_normal * fsetdatas->prob_normal) / (tempprob_altered + tempprob_normal);
         tempprob_altered = (tempprob_altered * fsetdatas->prob_altered)/ (tempprob_altered + tempprob_normal);
-        // printf("\nROW : %d\tINDEX: %d\t tempnormal : %.9lf\t tempaltered : %.9lf", rowcount, i, tempprob_normal, tempprob_altered);
-        // printf("\nROW : %d\tINDEX: %d\tactual_nora : %d", rowcount, i, resultset[i].actual_nora);
         if (tempprob_normal >= tempprob_altered)
         {
             resultset[i].predicted_nora = 0;
@@ -492,11 +490,10 @@ void *postprobcalc(Features *dataset, struct FeatureSet *fsetdatas, Probability 
         resultset[i].prob_normal = tempprob_normal;
         resultset[i].prob_altered = tempprob_altered;
     }
-    return 0;
 }
 
 // =============================================================================
-// Error Probability :
+// Error Probability / Confusion Matrix :
 // =============================================================================
 void *cmatrix(Probability_Err *postprobdata, struct Confusion_Matrix *resultset, unsigned int rowcount, unsigned int index)
 {
@@ -536,7 +533,7 @@ void *cmatrix(Probability_Err *postprobdata, struct Confusion_Matrix *resultset,
         }
     }
     resultset[index].prob_error /= (float)rowcount;
-    return 0;
+   
 }
 // =============================================================================
 // Gaussian Formula
@@ -550,9 +547,9 @@ double gaussiancalc(double mean, double variance, double xval)
 }
 
 
-// ==============================
-
-
+// =============================================================================
+// GNUPLOT Graph Plotting
+// =============================================================================
 void plot_graph(Confusion_Matrix_Type *cmatrixdata, int n)
 {
 
@@ -592,7 +589,9 @@ void plot_graph(Confusion_Matrix_Type *cmatrixdata, int n)
     fflush(p);
     pclose(p);
 }
-
+// =============================================================================
+// Confusion Matrix Printout
+// =============================================================================
 void printmatrix(Confusion_Matrix_Type *cmatrixdata, int n){
     
     for (int i = 0; i < n; i++)

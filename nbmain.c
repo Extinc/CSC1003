@@ -18,7 +18,7 @@
 int main(void);
 int main(void)
 {
-    FILE *fp;
+    FILE *fp = NULL;
     unsigned int flen = 0;     // num of line in file
     unsigned int trgcount = 0; // Number of Training Data
     unsigned int tstcount = 0; // Number of Test Data
@@ -45,7 +45,7 @@ int main(void)
         printf("Memory not allocated");
     }
 
-    char *fpath = "fertility_Diagnosis_Data_Group5_8.txt"; // File Path
+    char *fpath = "fertility_Diagnosis_Data_Group9_11.txt"; // File Path
     // ------------------------------------------------------------------------------------------------
     flen = countlength(fp, fpath);       // store the length count
     fddata = storeData(fp, fpath, flen); // Store the data from the txt file
