@@ -30,7 +30,7 @@ typedef struct
     short int high_fever;                // High Fever Last Year
     float alc_consumpfreq;               // Freuqnce of alcohol consumption
     short int smoking_habit;             // smoking habit
-    double sitting_duration;            // Number of hours spent sitting per table
+    double sitting_duration;             // Number of hours spent sitting per table
     unsigned short int semen_diag;       // Semen Diagnosis
 } Features;
 
@@ -40,7 +40,7 @@ struct FeatureSet
     unsigned int normal_count;  // Number of Normal
     unsigned int altered_count; // Number of altered
     double prob_normal;         // Probability of Normal
-    double prob_altered;        // Probability of Normal
+    double prob_altered;        // Probability of Altered
 };
 
 // Features for Age and Number of Hours Spend sitting per day
@@ -48,46 +48,46 @@ struct FeatureSetGauss
 {
     unsigned int normal_count;  // Number of Normal
     unsigned int altered_count; // Number of altered
-    double sum_normal;          // Number of Normal
-    double sum_altered;         // Number of altered
-    double var_normal;          // Value of Variance
-    double var_altered;         // Value of Variance
-    double mean_normal;         // Value of Mean
-    double mean_altered;        // Value of Mean
+    double sum_normal;          // Value of Sum Normal
+    double sum_altered;         // Value of SUm altered
+    double var_normal;          // Value of Variance Normal
+    double var_altered;         // Value of Variance Altered
+    double mean_normal;         // Value of Mean Normal
+    double mean_altered;        // Value of Mean Altered
 };
 
 typedef struct
 {
-    struct FeatureSet semen_diagnosis;      // Semen Diagnosis Features
-    struct FeatureSet winter;               // Season : Winter
-    struct FeatureSet spring;               // Season : Spring
-    struct FeatureSet summer;               // Season : Summer
-    struct FeatureSet fall;                 // Season : Fall
-    struct FeatureSet cdisease_yes;         // Childish Disease Yes
-    struct FeatureSet cdisease_no;          // Childish Disease No
-    struct FeatureSet trauma_yes;   // Accident / Serious Trauma YES
-    struct FeatureSet trauma_no;    // Accident / Serious Trauma NO
-    struct FeatureSet surgical_yes;         // Surgical Intervention YES
-    struct FeatureSet surgical_no;          // Surgical Intervention NO
-    struct FeatureSet highfever_lttm;       // High Fever last Year : Less than 3 mths ago
-    struct FeatureSet highfever_mttm;       // High Fever last Year : More than 3 mths ago
-    struct FeatureSet highfever_none;       // High Fever last Year : NO
-    struct FeatureSet freqalch_std;         // Frequency of alcohol : Several times a day
-    struct FeatureSet freqalch_every;       // Frequency of alcohol : Every day
-    struct FeatureSet freqalch_stw;         // Frequency of alcohol : Several times a week
-    struct FeatureSet freqalch_oaw;         // Frequency of alcohol : Once a week
-    struct FeatureSet freqalch_hardly;      // Frequency of alcohol : hardly or never
-    struct FeatureSet smokehabit_never;     // Smoking Habit : Never
-    struct FeatureSet smokehabit_occ;       // Smoking Habit : Occasionally
-    struct FeatureSet smokehabit_daily;     // Smoking Habit : Daily
-    struct FeatureSetGauss ageanalysis;     // Age of Analysis
+    struct FeatureSet semen_diagnosis;    // Semen Diagnosis Features
+    struct FeatureSet winter;             // Season : Winter
+    struct FeatureSet spring;             // Season : Spring
+    struct FeatureSet summer;             // Season : Summer
+    struct FeatureSet fall;               // Season : Fall
+    struct FeatureSet cdisease_yes;       // Childish Disease Yes
+    struct FeatureSet cdisease_no;        // Childish Disease No
+    struct FeatureSet trauma_yes;         // Accident / Serious Trauma YES
+    struct FeatureSet trauma_no;          // Accident / Serious Trauma NO
+    struct FeatureSet surgical_yes;       // Surgical Intervention YES
+    struct FeatureSet surgical_no;        // Surgical Intervention NO
+    struct FeatureSet highfever_lttm;     // High Fever last Year : Less than 3 mths ago
+    struct FeatureSet highfever_mttm;     // High Fever last Year : More than 3 mths ago
+    struct FeatureSet highfever_none;     // High Fever last Year : NO
+    struct FeatureSet freqalch_std;       // Frequency of alcohol : Several times a day
+    struct FeatureSet freqalch_every;     // Frequency of alcohol : Every day
+    struct FeatureSet freqalch_stw;       // Frequency of alcohol : Several times a week
+    struct FeatureSet freqalch_oaw;       // Frequency of alcohol : Once a week
+    struct FeatureSet freqalch_hardly;    // Frequency of alcohol : hardly or never
+    struct FeatureSet smokehabit_never;   // Smoking Habit : Never
+    struct FeatureSet smokehabit_occ;     // Smoking Habit : Occasionally
+    struct FeatureSet smokehabit_daily;   // Smoking Habit : Daily
+    struct FeatureSetGauss ageanalysis;   // Age of Analysis
     struct FeatureSetGauss sitting_hours; // Number of hours sitting per table
 } Probability;
 
 typedef struct
 {
-    short actual_nora;    // Actual Normal or Altered
-    short predicted_nora; // predicted Normal Or Altered :  Y | 0 = Normal or Y | 1 = Altered
+    short actual_nora;    // Actual Normal or Altered:  0 = Normal or 1 = Altered
+    short predicted_nora; // predicted Normal Or Altered :  0 = Normal or 1 = Altered
     double prob_normal;   // Probability of Normal
     double prob_altered;  // Probability of Altered
 } Probability_Err;

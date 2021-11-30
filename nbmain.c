@@ -1,7 +1,7 @@
 // =============================================================================
-// naivebayes.c
-// Assignment main program 2 with structures
-// 1003
+// nbmain.c
+// Naives bayes Main C File
+// CSC1003
 // =============================================================================
 
 #include <stdio.h>
@@ -12,8 +12,6 @@
 #include "nbstruct.h"
 #include "nbdata.h"
 #include "nbprob.h"
-
-#define LEN(x) sizeof(x) / sizeof(x[0])
 
 int main(void);
 int main(void)
@@ -45,7 +43,7 @@ int main(void)
         printf("Memory not allocated");
     }
 
-    char *fpath = "fertility_Diagnosis_Data_Group9_11.txt"; // File Path
+    char *fpath = "fertility_Diagnosis_Data_Group5_8.txt"; // File Path
     // ------------------------------------------------------------------------------------------------
     flen = countlength(fp, fpath);       // store the length count
     fddata = storeData(fp, fpath, flen); // Store the data from the txt file
@@ -55,6 +53,8 @@ int main(void)
     {
         printf("Memory not allocated");
     }
+
+    // Loop through 
     while (datasetcounter < 5)
     {
         // To calculate the Training Ratio based on file length

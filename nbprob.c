@@ -281,7 +281,7 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
 
     // ==============================
     // Probability - Altered
-    // // ==============================
+    // ==============================
 
     resultset->winter.prob_altered = (double)(resultset->winter.altered_count + ALPHA) / (altcount + (4 * ALPHA));
     resultset->spring.prob_altered = (double)(resultset->spring.altered_count + ALPHA) / (altcount + (4 * ALPHA));
@@ -346,18 +346,18 @@ void *postprobcalc(Features *dataset, struct FeatureSet *fsetdatas, Probability 
 
         if (dataset[i].seasons == WINTER)
         {
-            tempprob_normal = tempprob_normal * probdatas.winter.prob_normal;
-            tempprob_altered = tempprob_altered * probdatas.winter.prob_altered;
+            tempprob_normal *= probdatas.winter.prob_normal;
+            tempprob_altered *= probdatas.winter.prob_altered;
         }
         else if (dataset[i].seasons == (float)SPRING)
         {
-            tempprob_normal = tempprob_normal * probdatas.spring.prob_normal;
-            tempprob_altered = tempprob_altered * probdatas.spring.prob_altered;
+            tempprob_normal *= probdatas.spring.prob_normal;
+            tempprob_altered *= probdatas.spring.prob_altered;
         }
         else if (dataset[i].seasons == (float)SUMMER)
         {
-            tempprob_normal = tempprob_normal * probdatas.summer.prob_normal;
-            tempprob_altered = tempprob_altered * probdatas.summer.prob_altered;
+            tempprob_normal *= probdatas.summer.prob_normal;
+            tempprob_altered *= probdatas.summer.prob_altered;
         }
         else if (dataset[i].seasons == (float)FALL)
         {
@@ -499,12 +499,12 @@ void *postprobcalc(Features *dataset, struct FeatureSet *fsetdatas, Probability 
 void *cmatrix(Probability_Err *postprobdata, struct Confusion_Matrix *resultset, unsigned int rowcount, unsigned int index)
 {
     int i;
-    resultset[index].data_count = rowcount;
-    resultset[index].true_pos = 0;
-    resultset[index].true_neg = 0;
-    resultset[index].false_pos = 0;
-    resultset[index].false_neg = 0;
-    resultset[index].prob_error = 0;
+    (*(resultset+index)).data_count = rowcount;
+    (*(resultset+index)).true_pos = 0;
+    (*(resultset+index)).true_neg = 0;
+    (*(resultset+index)).false_pos = 0;
+    (*(resultset+index)).false_neg = 0;
+    (*(resultset+index)).prob_error = 0;
 
     for (i = 0; i < rowcount; i++)
     {
@@ -512,28 +512,28 @@ void *cmatrix(Probability_Err *postprobdata, struct Confusion_Matrix *resultset,
         {
             if (postprobdata[i].actual_nora == 1 && postprobdata[i].predicted_nora == 1)
             {
-                resultset[index].true_pos += 1;
+                (*(resultset+index)).true_pos += 1;
             }
             else if (postprobdata[i].actual_nora == 0 && postprobdata[i].predicted_nora == 0)
             {
-                resultset[index].true_neg += 1;
+                (*(resultset+index)).true_neg += 1;
             }
         }
         else
         {
             if (postprobdata[i].actual_nora == 0 && postprobdata[i].predicted_nora == 1)
             {
-                resultset[index].false_pos += 1;
+                (*(resultset+index)).false_pos += 1;
             }
 
             if (postprobdata[i].actual_nora == 1 && postprobdata[i].predicted_nora == 0)
             {
-                resultset[index].false_neg += 1;
+                (*(resultset+index)).false_neg += 1;
             }
-            resultset[index].prob_error += 1;
+            (*(resultset+index)).prob_error += 1;
         }
     }
-    resultset[index].prob_error /= (float)rowcount;
+    (*(resultset+index)).prob_error /= (float)rowcount;
    return 0;
 }
 // =============================================================================
@@ -597,30 +597,29 @@ void printmatrix(Confusion_Matrix_Type *cmatrixdata, int n){
     
     for (int i = 0; i < n; i++)
     {
-        printf("\n=========================================================================");
-        printf("\n||                          TRAINING DATA                              ||");
-        printf("\n||                                %d                                   ||", cmatrixdata->trg_cmatrix[i].data_count);
-        printf("\n=========================================================================");
-        printf("\n                     ||    PREDICTED ALTERED        PREDICTED NORMAL  ");
-        printf("\n---------------------||--------------------------------------------------");
-        printf("\n    ACTUAL ALTERED   ||           TP : %d                FN : %d           ", cmatrixdata->trg_cmatrix[i].true_pos, cmatrixdata->trg_cmatrix[i].false_neg);
-        printf("\n---------------------||--------------------------------------------------");
-        printf("\n    ACTUAL NORMAL    ||           FP : %d                TN : %d          ", cmatrixdata->trg_cmatrix[i].false_pos, cmatrixdata->trg_cmatrix[i].true_neg);
-        printf("\n=========================================================================");
-        printf("\n  Prob error  :   %lf", cmatrixdata->trg_cmatrix[i].prob_error);
-        printf("\n=========================================================================");
-        printf("\n");
-        printf("\n=========================================================================");
-        printf("\n||                            TEST DATA                                ||");
-        printf("\n||                                %d                                   ||", cmatrixdata->tst_cmatrix[i].data_count);
-        printf("\n=========================================================================");
-        printf("\n                     ||    PREDICTED ALTERED        PREDICTED NORMAL  ");
-        printf("\n---------------------||--------------------------------------------------");
-        printf("\n    ACTUAL ALTERED   ||           TP : %d                FN : %d           ", cmatrixdata->tst_cmatrix[i].true_pos, cmatrixdata->tst_cmatrix[i].false_neg);
-        printf("\n---------------------||--------------------------------------------------");
-        printf("\n    ACTUAL NORMAL    ||           FP : %d                TN : %d          ", cmatrixdata->tst_cmatrix[i].false_pos, cmatrixdata->tst_cmatrix[i].true_neg);
-        printf("\n=========================================================================");
-        printf("\n Prob error :   %lf", cmatrixdata->tst_cmatrix[i].prob_error);
-        printf("\n=========================================================================");
+        printf("\n==========================================================================");
+        printf("\n||                          TRAINING DATA                               ||");
+        printf("\n||                                %d                                    ||", cmatrixdata->trg_cmatrix[i].data_count);
+        printf("\n==========================================================================");
+        printf("\n                      ||    PREDICTED POSITIVE        PREDICTED NEGATIVE  ");
+        printf("\n----------------------||--------------------------------------------------");
+        printf("\n    ACTUAL POSITIVE   ||           TP : %d                FN : %d           ", cmatrixdata->trg_cmatrix[i].true_pos, cmatrixdata->trg_cmatrix[i].false_neg);
+        printf("\n----------------------||--------------------------------------------------");
+        printf("\n    ACTUAL NEGATIVE   ||           FP : %d                TN : %d          ", cmatrixdata->trg_cmatrix[i].false_pos, cmatrixdata->trg_cmatrix[i].true_neg);
+        printf("\n==========================================================================");
+        printf("\n  Error of Probability  :   %lf", cmatrixdata->trg_cmatrix[i].prob_error);
+        printf("\n==========================================================================\n");
+        printf("\n==========================================================================");
+        printf("\n||                            TEST DATA                                 ||");
+        printf("\n||                                %d                                    ||", cmatrixdata->tst_cmatrix[i].data_count);
+        printf("\n==========================================================================");
+        printf("\n                     ||    PREDICTED POSITIVE        PREDICTED NEGATIVE  ");
+        printf("\n---------------------||---------------------------------------------------");
+        printf("\n    ACTUAL POSITIVE  ||           TP : %d                FN : %d           ", cmatrixdata->tst_cmatrix[i].true_pos, cmatrixdata->tst_cmatrix[i].false_neg);
+        printf("\n---------------------||---------------------------------------------------");
+        printf("\n    ACTUAL NEGATIVE  ||           FP : %d                TN : %d          ", cmatrixdata->tst_cmatrix[i].false_pos, cmatrixdata->tst_cmatrix[i].true_neg);
+        printf("\n==========================================================================");
+        printf("\n  Error of Probability  :   %lf", cmatrixdata->tst_cmatrix[i].prob_error);
+        printf("\n==========================================================================\n");
     }
 }
