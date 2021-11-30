@@ -1,25 +1,25 @@
 #ifndef ___nbstruct__
 #define ___nbstruct__
 
-#define PI 3.14159265
-#define WINTER -1
-#define SPRING -0.33
-#define SUMMER 0.33
-#define FALL 1
-#define HIGH_FEVER_LESSTHAN -1
-#define HIGH_FEVER_MORETHAN 0
-#define HIGH_FEVER_NO 1
-#define SERVERAL_A_DAY 0.2f
-#define EVERY_DAY 0.4f
-#define SERVERAL_A_WEEK 0.6f
-#define ONCE_A_WEEK 0.8f
-#define HARDLY_NEVER 1
-#define SH_NEVER -1
-#define SH_OCCASIONALLY 0
-#define SH_DAILY 1
-#define NORMAL_YES 0 // NORMAL / YES
-#define ALTERED_NO 1 // ALTERED / NO
-#define ALPHA 0.01
+#define PI 3.14159265          // Value of PI
+#define WINTER -1              // Season
+#define SPRING -0.33           // Season
+#define SUMMER 0.33            // Season
+#define FALL 1                 // Season
+#define HIGH_FEVER_LESSTHAN -1 // For High Fever Less than 3 month ago
+#define HIGH_FEVER_MORETHAN 0  // For High Fever More than 3 month ago
+#define HIGH_FEVER_NO 1        // High Fever No
+#define SERVERAL_A_DAY 0.2f    // For Frequency of Alcohol Consumption Serveral a day
+#define EVERY_DAY 0.4f         // For Frequency of Alcohol Consumption Everyday
+#define SERVERAL_A_WEEK 0.6f   // For Frequency of Alcohol Consumption Several a week
+#define ONCE_A_WEEK 0.8f       // For Frequency of Alcohol Consumption Once a week
+#define HARDLY_NEVER 1         // For Frequency of Alcohol Consumption Hardly or Never
+#define SH_NEVER -1            // Smoking Habit Never
+#define SH_OCCASIONALLY 0      // Smoking Habit Occasionally
+#define SH_DAILY 1             // Smoking Habit Daily
+#define NORMAL_YES 0           // NORMAL / YES
+#define ALTERED_NO 1           // ALTERED / NO
+#define ALPHA 0.01             // alpha value for laplace smoothing
 typedef struct
 {
     float seasons;                       // SEASON OF Analysis
