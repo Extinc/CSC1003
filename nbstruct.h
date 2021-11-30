@@ -30,7 +30,7 @@ typedef struct
     short int high_fever;                // High Fever Last Year
     float alc_consumpfreq;               // Freuqnce of alcohol consumption
     short int smoking_habit;             // smoking habit
-    double numhrsit_pertable;            // Number of hours spent sitting per table
+    double sitting_duration;            // Number of hours spent sitting per table
     unsigned short int semen_diag;       // Semen Diagnosis
 } Features;
 
@@ -81,7 +81,7 @@ typedef struct
     struct FeatureSet smokehabit_occ;       // Smoking Habit : Occasionally
     struct FeatureSet smokehabit_daily;     // Smoking Habit : Daily
     struct FeatureSetGauss ageanalysis;     // Age of Analysis
-    struct FeatureSetGauss numhrsit_ptable; // Number of hours sitting per table
+    struct FeatureSetGauss sitting_hours; // Number of hours sitting per table
 } Probability;
 
 typedef struct

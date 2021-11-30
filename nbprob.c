@@ -139,8 +139,8 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
             // ==============================
             resultset->ageanalysis.sum_normal += dataset[i].ageanalysis;
             resultset->ageanalysis.normal_count += 1;
-            resultset->numhrsit_ptable.sum_normal += dataset[i].numhrsit_pertable;
-            resultset->numhrsit_ptable.normal_count += 1;
+            resultset->sitting_hours.sum_normal += dataset[i].sitting_duration;
+            resultset->sitting_hours.normal_count += 1;
         }
         else
         {
@@ -242,8 +242,8 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
             resultset->ageanalysis.sum_altered += dataset[i].ageanalysis;
             resultset->ageanalysis.altered_count += 1;
 
-            resultset->numhrsit_ptable.sum_altered += dataset[i].numhrsit_pertable;
-            resultset->numhrsit_ptable.altered_count += 1;
+            resultset->sitting_hours.sum_altered += dataset[i].sitting_duration;
+            resultset->sitting_hours.altered_count += 1;
         }
     }
 
@@ -276,7 +276,7 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
     resultset->smokehabit_occ.prob_normal = (double)(resultset->smokehabit_occ.normal_count + ALPHA) / (normcount + (3 * ALPHA));
     resultset->smokehabit_daily.prob_normal = (double)(resultset->smokehabit_daily.normal_count + ALPHA) / (normcount + (3 * ALPHA));
     resultset->ageanalysis.mean_normal = (double)(resultset->ageanalysis.sum_normal) / (normcount);
-    resultset->numhrsit_ptable.mean_normal = (double)(resultset->numhrsit_ptable.sum_normal) / (normcount);
+    resultset->sitting_hours.mean_normal = (double)(resultset->sitting_hours.sum_normal) / (normcount);
 
 
     // ==============================
@@ -305,7 +305,7 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
     resultset->smokehabit_occ.prob_altered = (double)(resultset->smokehabit_occ.altered_count + ALPHA) / (altcount + (3 * ALPHA));
     resultset->smokehabit_daily.prob_altered = (double)(resultset->smokehabit_daily.altered_count + ALPHA) / (altcount + (3 * ALPHA));
     resultset->ageanalysis.mean_altered = (double)(resultset->ageanalysis.sum_altered) / (altcount);
-    resultset->numhrsit_ptable.mean_altered = (double)(resultset->numhrsit_ptable.sum_altered ) / (altcount);
+    resultset->sitting_hours.mean_altered = (double)(resultset->sitting_hours.sum_altered ) / (altcount);
 
 
     for (int j = 0; j < rowcount; j++)
@@ -313,19 +313,19 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
         if (dataset[j].semen_diag == NORMAL_YES)
         {
             resultset->ageanalysis.var_normal += pow((dataset[j].ageanalysis - (resultset->ageanalysis.mean_normal)), 2);
-            resultset->numhrsit_ptable.var_normal += pow((dataset[j].numhrsit_pertable - (resultset->numhrsit_ptable.mean_normal)), 2);
+            resultset->sitting_hours.var_normal += pow((dataset[j].sitting_duration - (resultset->sitting_hours.mean_normal)), 2);
         }
         else if (dataset[j].semen_diag == ALTERED_NO)
         {
             resultset->ageanalysis.var_altered += pow((dataset[j].ageanalysis - (resultset->ageanalysis.mean_altered)), 2);
-            resultset->numhrsit_ptable.var_altered += pow((dataset[j].numhrsit_pertable - (resultset->numhrsit_ptable.mean_altered)), 2);
+            resultset->sitting_hours.var_altered += pow((dataset[j].sitting_duration - (resultset->sitting_hours.mean_altered)), 2);
         }
     }
     resultset->ageanalysis.var_normal /= (double)(normcount);
-    resultset->numhrsit_ptable.var_normal /= (double)(normcount);
+    resultset->sitting_hours.var_normal /= (double)(normcount);
     resultset->ageanalysis.var_altered /= (double)(altcount);
-    resultset->numhrsit_ptable.var_altered /= (double)(altcount);
-
+    resultset->sitting_hours.var_altered /= (double)(altcount);
+    return 0;
 }
 
 // =============================================================================
@@ -469,11 +469,11 @@ void *postprobcalc(Features *dataset, struct FeatureSet *fsetdatas, Probability 
 
         tempgauss_age = gaussiancalc(probdatas.ageanalysis.mean_normal, probdatas.ageanalysis.var_normal, dataset[i].ageanalysis);
         tempprob_normal *= tempgauss_age;
-        tempgauss_hrs = gaussiancalc(probdatas.numhrsit_ptable.mean_normal, probdatas.numhrsit_ptable.var_normal, dataset[i].numhrsit_pertable);
+        tempgauss_hrs = gaussiancalc(probdatas.sitting_hours.mean_normal, probdatas.sitting_hours.var_normal, dataset[i].sitting_duration);
         tempprob_normal *= tempgauss_hrs;
         tempgauss_age = gaussiancalc(probdatas.ageanalysis.mean_altered, probdatas.ageanalysis.var_altered, dataset[i].ageanalysis);
         tempprob_altered *= tempgauss_age;
-        tempgauss_hrs = gaussiancalc(probdatas.numhrsit_ptable.mean_altered, probdatas.numhrsit_ptable.var_altered, dataset[i].numhrsit_pertable);
+        tempgauss_hrs = gaussiancalc(probdatas.sitting_hours.mean_altered, probdatas.sitting_hours.var_altered, dataset[i].sitting_duration);
         tempprob_altered *= tempgauss_hrs;
         resultset[i].actual_nora = dataset[i].semen_diag;
         tempprob_normal =(tempprob_normal * fsetdatas->prob_normal) / (tempprob_altered + tempprob_normal);
@@ -490,6 +490,7 @@ void *postprobcalc(Features *dataset, struct FeatureSet *fsetdatas, Probability 
         resultset[i].prob_normal = tempprob_normal;
         resultset[i].prob_altered = tempprob_altered;
     }
+    return 0;
 }
 
 // =============================================================================
@@ -533,7 +534,7 @@ void *cmatrix(Probability_Err *postprobdata, struct Confusion_Matrix *resultset,
         }
     }
     resultset[index].prob_error /= (float)rowcount;
-   
+   return 0;
 }
 // =============================================================================
 // Gaussian Formula
