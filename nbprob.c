@@ -278,7 +278,6 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
     resultset->ageanalysis.mean_normal = (double)(resultset->ageanalysis.sum_normal) / (normcount);
     resultset->sitting_hours.mean_normal = (double)(resultset->sitting_hours.sum_normal) / (normcount);
 
-
     // ==============================
     // Probability - Altered
     // ==============================
@@ -305,8 +304,7 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
     resultset->smokehabit_occ.prob_altered = (double)(resultset->smokehabit_occ.altered_count + ALPHA) / (altcount + (3 * ALPHA));
     resultset->smokehabit_daily.prob_altered = (double)(resultset->smokehabit_daily.altered_count + ALPHA) / (altcount + (3 * ALPHA));
     resultset->ageanalysis.mean_altered = (double)(resultset->ageanalysis.sum_altered) / (altcount);
-    resultset->sitting_hours.mean_altered = (double)(resultset->sitting_hours.sum_altered ) / (altcount);
-
+    resultset->sitting_hours.mean_altered = (double)(resultset->sitting_hours.sum_altered) / (altcount);
 
     for (int j = 0; j < rowcount; j++)
     {
@@ -476,8 +474,8 @@ void *postprobcalc(Features *dataset, struct FeatureSet *fsetdatas, Probability 
         tempgauss_hrs = gaussiancalc(probdatas.sitting_hours.mean_altered, probdatas.sitting_hours.var_altered, dataset[i].sitting_duration);
         tempprob_altered *= tempgauss_hrs;
         resultset[i].actual_nora = dataset[i].semen_diag;
-        tempprob_normal =(tempprob_normal * fsetdatas->prob_normal) / (tempprob_altered + tempprob_normal);
-        tempprob_altered = (tempprob_altered * fsetdatas->prob_altered)/ (tempprob_altered + tempprob_normal);
+        tempprob_normal = (tempprob_normal * fsetdatas->prob_normal) / (tempprob_altered + tempprob_normal);
+        tempprob_altered = (tempprob_altered * fsetdatas->prob_altered) / (tempprob_altered + tempprob_normal);
         if (tempprob_normal >= tempprob_altered)
         {
             resultset[i].predicted_nora = 0;
@@ -499,42 +497,42 @@ void *postprobcalc(Features *dataset, struct FeatureSet *fsetdatas, Probability 
 void *cmatrix(Probability_Err *postprobdata, struct Confusion_Matrix *resultset, unsigned int rowcount, unsigned int index)
 {
     int i;
-    (*(resultset+index)).data_count = rowcount;
-    (*(resultset+index)).true_pos = 0;
-    (*(resultset+index)).true_neg = 0;
-    (*(resultset+index)).false_pos = 0;
-    (*(resultset+index)).false_neg = 0;
-    (*(resultset+index)).prob_error = 0;
+    (*(resultset + index)).data_count = rowcount;
+    (*(resultset + index)).true_pos = 0;
+    (*(resultset + index)).true_neg = 0;
+    (*(resultset + index)).false_pos = 0;
+    (*(resultset + index)).false_neg = 0;
+    (*(resultset + index)).prob_error = 0;
 
     for (i = 0; i < rowcount; i++)
     {
-        if (postprobdata[i].actual_nora == postprobdata[i].predicted_nora)
+        if ((*(postprobdata + i)).actual_nora == (*(postprobdata + i)).predicted_nora)
         {
-            if (postprobdata[i].actual_nora == 1 && postprobdata[i].predicted_nora == 1)
+            if ((*(postprobdata + i)).actual_nora == 1 && (*(postprobdata + i)).predicted_nora == 1)
             {
-                (*(resultset+index)).true_pos += 1;
+                (*(resultset + index)).true_pos += 1;
             }
-            else if (postprobdata[i].actual_nora == 0 && postprobdata[i].predicted_nora == 0)
+            else if ((*(postprobdata + i)).actual_nora == 0 && (*(postprobdata + i)).predicted_nora == 0)
             {
-                (*(resultset+index)).true_neg += 1;
+                (*(resultset + index)).true_neg += 1;
             }
         }
         else
         {
-            if (postprobdata[i].actual_nora == 0 && postprobdata[i].predicted_nora == 1)
+            if ((*(postprobdata + i)).actual_nora == 0 && (*(postprobdata + i)).predicted_nora == 1)
             {
-                (*(resultset+index)).false_pos += 1;
+                (*(resultset + index)).false_pos += 1;
             }
 
-            if (postprobdata[i].actual_nora == 1 && postprobdata[i].predicted_nora == 0)
+            if ((*(postprobdata + i)).actual_nora == 1 && (*(postprobdata + i)).predicted_nora == 0)
             {
-                (*(resultset+index)).false_neg += 1;
+                (*(resultset + index)).false_neg += 1;
             }
-            (*(resultset+index)).prob_error += 1;
+            (*(resultset + index)).prob_error += 1;
         }
     }
-    (*(resultset+index)).prob_error /= (float)rowcount;
-   return 0;
+    (*(resultset + index)).prob_error /= (float)rowcount;
+    return 0;
 }
 // =============================================================================
 // Gaussian Formula
@@ -547,7 +545,6 @@ double gaussiancalc(double mean, double variance, double xval)
     return result;
 }
 
-
 // =============================================================================
 // GNUPLOT Graph Plotting
 // =============================================================================
@@ -557,10 +554,8 @@ void plot_graph(Confusion_Matrix_Type *cmatrixdata, int n)
     FILE *p = popen("gnuplot -persist", "w");
     fprintf(p, "set title 'Chart for Probability of Error' \n");
     fprintf(p, "set term qt font 'Arial,12' \n");
-    fprintf(p, "set xlabel 'Training Data Size' \n");                      // Set X-axis Label
+    fprintf(p, "set xlabel 'Training Data Size' \n");               // Set X-axis Label
     fprintf(p, "set ylabel 'Probability of Error %%' \n");          // Set Y-axis Label
-    //fprintf(p, "set xrange [40:100] \n");                           // Set X-axis Range
-    fprintf(p, "set yrange [0:30] \n");                             // Set Y-axis Range
     fprintf(p, "set style line 1 lc rgb 'blue' lt 1 lw 2 pt 7 \n"); // Line Style for training Data
     fprintf(p, "set style line 2 lc rgb 'red' lt 1 lw 2 pt 6 \n");  // Set Y-axis Label
 
@@ -571,16 +566,16 @@ void plot_graph(Confusion_Matrix_Type *cmatrixdata, int n)
         fprintf(p, "$TRGDATA << EOD\n");
         for (int i = 0; i < n; i++)
         {
-            xval = cmatrixdata->trg_cmatrix[i].data_count;
-            yval = cmatrixdata->trg_cmatrix[i].prob_error * 100;
+            xval = cmatrixdata->trg_cmatrix[i].data_count;       // X axis
+            yval = cmatrixdata->trg_cmatrix[i].prob_error * 100; // Y axis in percentage
             fprintf(p, "%d %g\n", xval, yval);
         }
         fprintf(p, "EOD\n");
         fprintf(p, "$TSTDATA << EOD\n");
         for (int k = n - 1; k >= 0; k--)
         {
-            xval = cmatrixdata->trg_cmatrix[k].data_count;
-            yval = cmatrixdata->tst_cmatrix[k].prob_error * 100;
+            xval = cmatrixdata->trg_cmatrix[k].data_count;       //For Test Data use Traning data count to put them under same x axis
+            yval = cmatrixdata->tst_cmatrix[k].prob_error * 100; // Y axis in percentage
             // If Test Data
             fprintf(p, "%d %g\n", xval, yval);
         }
@@ -593,8 +588,9 @@ void plot_graph(Confusion_Matrix_Type *cmatrixdata, int n)
 // =============================================================================
 // Confusion Matrix Printout
 // =============================================================================
-void printmatrix(Confusion_Matrix_Type *cmatrixdata, int n){
-    
+void printmatrix(Confusion_Matrix_Type *cmatrixdata, int n)
+{
+
     for (int i = 0; i < n; i++)
     {
         printf("\n==========================================================================");

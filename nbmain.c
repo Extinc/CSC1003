@@ -43,7 +43,7 @@ int main(void)
         printf("Memory not allocated");
     }
 
-    char *fpath = "fertility_Diagnosis_Data_Group5_8.txt"; // File Path
+    char *fpath = "fertility_Diagnosis_Data_Group9_11.txt"; // File Path
     // ------------------------------------------------------------------------------------------------
     flen = countlength(fp, fpath);       // store the length count
     fddata = storeData(fp, fpath, flen); // Store the data from the txt file
@@ -54,7 +54,7 @@ int main(void)
         printf("Memory not allocated");
     }
 
-    // Loop through 
+    // Loop through 5 as there is only 5 ratio set 50:50, 60:40, 70:30, 80:20, 90:10
     while (datasetcounter < 5)
     {
         // To calculate the Training Ratio based on file length
@@ -95,6 +95,7 @@ int main(void)
         datasetcounter++;
     }
 
+    // Free the memory allocated and will not be needed anymore
     free(priorprobres);
     free(fddata);
     free(condprobres);
