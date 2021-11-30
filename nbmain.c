@@ -31,13 +31,15 @@ int main(void)
     {
         printf("Memory not allocated");
     }
-    Probability *condprobres = calloc(1, sizeof(Probability)); // Conditional Probability Allocate memory and Initialize all to zero
+    // Conditional Probability Allocate memory and Initialize all to zero
+    Probability *condprobres = calloc(1, sizeof(Probability)); 
     if (condprobres == NULL)
     {
         printf("Memory not allocated");
     }
 
-    Confusion_Matrix_Type *cmatrixdata = calloc(1, sizeof(Confusion_Matrix_Type)); // Confusion Matrix Allocate memory and Initialize all to zero within struct
+    // Confusion Matrix Allocate memory and Initialize all to zero within struct
+    Confusion_Matrix_Type *cmatrixdata = calloc(1, sizeof(Confusion_Matrix_Type));
     if (cmatrixdata == NULL)
     {
         printf("Memory not allocated");
@@ -48,7 +50,9 @@ int main(void)
     flen = countlength(fp, fpath);       // store the length count
     fddata = storeData(fp, fpath, flen); // Store the data from the txt file
     // ------------------------------------------------------------------------------------------------
-    postprob = (Probability_Err *)malloc(flen * sizeof(Probability_Err)); // Allocate memory for posterior probabiliy
+    
+    // Allocate memory for posterior probabiliy
+    postprob = (Probability_Err *)malloc(flen * sizeof(Probability_Err)); 
     if (postprob == NULL)
     {
         printf("Memory not allocated");

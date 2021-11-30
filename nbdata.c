@@ -36,12 +36,15 @@ Features *storeData(FILE *ifp, char *fpath, int len)
 
 int countlength(FILE *ifp, char *fpath)
 {
-    int lencount = 0;
+    // Store for counting the number of data in the file
+    int lencount = 0; 
+
+    // Open File
     ifp = fopen(fpath, "r");
     char temp[100];
     while (fscanf(ifp, "%s", temp) != EOF)
     {
-        lencount++;
+        lencount++; // Increment the lencount
     }
     fclose(ifp); // CLOSE FILE
     return lencount;
