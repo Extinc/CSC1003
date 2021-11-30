@@ -9,13 +9,14 @@ void *priorprobcalc(Features *dataset, struct FeatureSet *probresult, unsigned i
     //struct FeatureSet *probresult;
     unsigned int normcount = 0; // normal count
     unsigned int altcount = 0;  // altered count
-    // Calculate  & Store the probability back to the result
+    // Calculate  the number of normal / altered
     for (int i = 0; i < rowcount; i++)
     {
         normcount = dataset[i].semen_diag == NORMAL_YES ? normcount + 1 : normcount;
         altcount = dataset[i].semen_diag == ALTERED_NO ? altcount + 1 : altcount;
     }
 
+    // calculate P(normal) & P(altered)
     probresult->prob_normal = (double)normcount / rowcount;
     probresult->prob_altered = (double)altcount / rowcount;
     probresult->normal_count = normcount;
@@ -29,22 +30,21 @@ void *priorprobcalc(Features *dataset, struct FeatureSet *probresult, unsigned i
 
 void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resultset, unsigned int rowcount)
 {
-    struct FeatureSet temp = *priorprob;
-    //resultset = inittozero(); // Initialize resultset
-    int normcount = 0;
-    int altcount = 0;
-    Features tempfeature = {0};
-    // ==============================
-    // Normal & Altered counter
-    // ============================== 
-    normcount = temp.normal_count;
-    altcount = temp.altered_count;
-    resultset->semen_diagnosis = temp;
+    resultset->semen_diagnosis = *priorprob; // Store Prior prob (Based on Normal / Altered SEMEN DIAGNOSIS)
+    int normcount = 0;                       // Number of Normal
+    int altcount = 0;                        // Number of Altered
+    Features tempfeature = {0};              // Initialize & to hold features from dataset
+    // ==========================================================================================
+    // normcount : Number of Normal semen diagnosis  altcount : Number of Altered sement dagnosis
+    // ==========================================================================================
+    normcount = resultset->semen_diagnosis.normal_count; // Get the normal_count into the normcount
+    altcount = resultset->semen_diagnosis.altered_count; // Get the altered_count into the altcount
     for (int i = 0; i < rowcount; i++)
     {
-        tempfeature = (*(dataset+i));
+        tempfeature = (*(dataset + i)); // Pointer to get the data at index i
         if (tempfeature.semen_diag == NORMAL_YES)
         {
+            // Seasons
             if (tempfeature.seasons == WINTER)
             {
                 resultset->winter.normal_count += 1;
@@ -62,6 +62,7 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
                 resultset->fall.normal_count += 1;
             }
             // ==============================
+            // Childish Disease
             if (tempfeature.childish_disease == NORMAL_YES)
             {
                 resultset->cdisease_yes.normal_count += 1;
@@ -71,6 +72,7 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
                 resultset->cdisease_no.normal_count += 1;
             }
             // ==============================
+            // Accident / Serious Trauma
             if (tempfeature.trauma == NORMAL_YES)
             {
                 resultset->trauma_yes.normal_count += 1;
@@ -80,6 +82,7 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
                 resultset->trauma_no.normal_count += 1;
             }
             // ==============================
+            // Surgical Intervention
             if (tempfeature.surgical == NORMAL_YES)
             {
                 resultset->surgical_yes.normal_count += 1;
@@ -89,6 +92,7 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
                 resultset->surgical_no.normal_count += 1;
             }
             // ==============================
+            // High Fever
             if (tempfeature.high_fever == HIGH_FEVER_LESSTHAN)
             {
                 resultset->highfever_lttm.normal_count += 1;
@@ -102,6 +106,7 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
                 resultset->highfever_none.normal_count += 1;
             }
             // ==============================
+            // Frequency of Alcohol Consumption
             if (tempfeature.alc_consumpfreq == SERVERAL_A_DAY)
             {
                 resultset->freqalch_std.normal_count += 1;
@@ -124,7 +129,7 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
             }
 
             // ==============================
-
+            // Smoking Habit
             if (tempfeature.smoking_habit == SH_NEVER)
             {
                 resultset->smokehabit_never.normal_count += 1;
@@ -139,6 +144,8 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
             }
 
             // ==============================
+
+            // Age of Analysis & Number of hours sitting per table
             resultset->ageanalysis.sum_normal += tempfeature.ageanalysis;
             resultset->ageanalysis.normal_count += 1;
             resultset->sitting_hours.sum_normal += tempfeature.sitting_duration;
@@ -146,6 +153,7 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
         }
         else
         {
+            // Season
             if (tempfeature.seasons == WINTER)
             {
                 resultset->winter.altered_count += 1;
@@ -163,6 +171,7 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
                 resultset->fall.altered_count += 1;
             }
             // ==============================
+            // Childish Disease
             if (tempfeature.childish_disease == NORMAL_YES)
             {
                 resultset->cdisease_yes.altered_count += 1;
@@ -172,6 +181,7 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
                 resultset->cdisease_no.altered_count += 1;
             }
             // ==============================
+            // Accident / Serious Trauma
             if (tempfeature.trauma == NORMAL_YES)
             {
                 resultset->trauma_yes.altered_count += 1;
@@ -181,6 +191,7 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
                 resultset->trauma_no.altered_count += 1;
             }
             // ==============================
+            // Surgical Intervention
             if (tempfeature.surgical == NORMAL_YES)
             {
                 resultset->surgical_yes.altered_count += 1;
@@ -190,6 +201,7 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
                 resultset->surgical_no.altered_count += 1;
             }
             // ==============================
+            // High Fever
             if (tempfeature.high_fever == HIGH_FEVER_LESSTHAN)
             {
                 resultset->highfever_lttm.altered_count += 1;
@@ -204,6 +216,8 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
                 resultset->highfever_none.altered_count += 1;
             }
             // ==============================
+
+            // Frequency of Alcohol Consumption
             if (tempfeature.alc_consumpfreq == SERVERAL_A_DAY)
             {
                 resultset->freqalch_std.altered_count += 1;
@@ -226,7 +240,7 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
             }
 
             // ==============================
-
+            // Smoking Habit
             if (tempfeature.smoking_habit == SH_NEVER)
             {
 
@@ -241,6 +255,8 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
                 resultset->smokehabit_daily.altered_count += 1;
             }
             // ==============================
+
+            // Age of Analysis & Number of hours sitting per table
             resultset->ageanalysis.sum_altered += tempfeature.ageanalysis;
             resultset->ageanalysis.altered_count += 1;
 
@@ -308,9 +324,11 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
     resultset->ageanalysis.mean_altered = (double)(resultset->ageanalysis.sum_altered) / (altcount);
     resultset->sitting_hours.mean_altered = (double)(resultset->sitting_hours.sum_altered) / (altcount);
 
+    // Below is to calculate the variance altered and variance normal 
+    // for age of analysis & num hrs sitting per table
     for (int j = 0; j < rowcount; j++)
     {
-        tempfeature = (*(dataset+j));
+        tempfeature = (*(dataset + j));
         if (tempfeature.semen_diag == NORMAL_YES)
         {
             resultset->ageanalysis.var_normal += pow((tempfeature.ageanalysis - (resultset->ageanalysis.mean_normal)), 2);
@@ -322,10 +340,10 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
             resultset->sitting_hours.var_altered += pow((tempfeature.sitting_duration - (resultset->sitting_hours.mean_altered)), 2);
         }
     }
-    resultset->ageanalysis.var_normal /= (double)(normcount);
-    resultset->sitting_hours.var_normal /= (double)(normcount);
-    resultset->ageanalysis.var_altered /= (double)(altcount);
-    resultset->sitting_hours.var_altered /= (double)(altcount);
+    resultset->ageanalysis.var_normal /= (double)(normcount - 1);
+    resultset->sitting_hours.var_normal /= (double)(normcount - 1);
+    resultset->ageanalysis.var_altered /= (double)(altcount - 1);
+    resultset->sitting_hours.var_altered /= (double)(altcount - 1);
     return 0;
 }
 
@@ -335,16 +353,15 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
 void *postprobcalc(Features *dataset, struct FeatureSet *fsetdatas, Probability *probdataset, Probability_Err *resultset, unsigned int rowcount)
 {
     Probability probdatas = *probdataset;
-    //Probability_Err *resultset = (Probability_Err *)malloc(rowcount * sizeof(Probability_Err));
     double tempprob_normal = 0, tempprob_altered = 0;
     double tempgauss_age = 0, tempgauss_hrs = 0;
-    //int err_count = 0;
     int i = 0;
     for (i = 0; i < rowcount; i++)
     {
         tempprob_normal = 1;
         tempprob_altered = 1;
 
+        // Seasons
         if (dataset[i].seasons == WINTER)
         {
             tempprob_normal *= probdatas.winter.prob_normal;
@@ -366,6 +383,7 @@ void *postprobcalc(Features *dataset, struct FeatureSet *fsetdatas, Probability 
             tempprob_altered *= probdatas.fall.prob_altered;
         }
         // ==============================
+        // Childish DIsease
         if (dataset[i].childish_disease == NORMAL_YES)
         {
             tempprob_normal *= probdatas.cdisease_yes.prob_normal;
@@ -377,6 +395,7 @@ void *postprobcalc(Features *dataset, struct FeatureSet *fsetdatas, Probability 
             tempprob_altered *= probdatas.cdisease_no.prob_altered;
         }
         // ==============================
+        // Accident / Serious Trauma
         if (dataset[i].trauma == NORMAL_YES)
         {
             tempprob_normal *= probdatas.trauma_yes.prob_normal;
@@ -388,7 +407,7 @@ void *postprobcalc(Features *dataset, struct FeatureSet *fsetdatas, Probability 
             tempprob_altered *= probdatas.trauma_no.prob_altered;
         }
         // ==============================
-
+        // Surgical Intervention
         if (dataset[i].surgical == NORMAL_YES)
         {
             tempprob_normal *= probdatas.surgical_yes.prob_normal;
@@ -401,7 +420,7 @@ void *postprobcalc(Features *dataset, struct FeatureSet *fsetdatas, Probability 
         }
 
         // ==============================
-
+        // High fever
         if (dataset[i].high_fever == HIGH_FEVER_LESSTHAN)
         {
             tempprob_normal *= probdatas.highfever_lttm.prob_normal;
@@ -419,6 +438,7 @@ void *postprobcalc(Features *dataset, struct FeatureSet *fsetdatas, Probability 
         }
 
         // ==============================
+        // Frequency of Alcohol Consumption
         if (dataset[i].alc_consumpfreq == (float)SERVERAL_A_DAY)
         {
             tempprob_normal *= probdatas.freqalch_std.prob_normal;
@@ -443,22 +463,19 @@ void *postprobcalc(Features *dataset, struct FeatureSet *fsetdatas, Probability 
         {
             tempprob_normal *= probdatas.freqalch_hardly.prob_normal;
             tempprob_altered *= probdatas.freqalch_hardly.prob_altered;
-            // printf("\n TEST a5 : %lf ", probdatas.freqalch_hardly.prob_normal);
         }
 
         // ==============================
-
+        // Smoking Habit
         if (dataset[i].smoking_habit == SH_NEVER)
         {
             tempprob_normal *= probdatas.smokehabit_never.prob_normal;
             tempprob_altered *= probdatas.smokehabit_never.prob_altered;
-            // printf("\n TEST sh1 : %lf ", probdatas.smokehabit_never.prob_normal);
         }
         else if (dataset[i].smoking_habit == SH_OCCASIONALLY)
         {
             tempprob_normal *= probdatas.smokehabit_occ.prob_normal;
             tempprob_altered *= probdatas.smokehabit_occ.prob_altered;
-            // printf("\n TEST sh2 : %lf ", probdatas.smokehabit_occ.prob_normal);
         }
         else if (dataset[i].smoking_habit == SH_DAILY)
         {
@@ -468,10 +485,13 @@ void *postprobcalc(Features *dataset, struct FeatureSet *fsetdatas, Probability 
 
         // ==============================
 
+        // Gaussian for age of analysis and num hrs sitting per table
+
         tempgauss_age = gaussiancalc(probdatas.ageanalysis.mean_normal, probdatas.ageanalysis.var_normal, dataset[i].ageanalysis);
         tempprob_normal *= tempgauss_age;
         tempgauss_hrs = gaussiancalc(probdatas.sitting_hours.mean_normal, probdatas.sitting_hours.var_normal, dataset[i].sitting_duration);
         tempprob_normal *= tempgauss_hrs;
+
         tempgauss_age = gaussiancalc(probdatas.ageanalysis.mean_altered, probdatas.ageanalysis.var_altered, dataset[i].ageanalysis);
         tempprob_altered *= tempgauss_age;
         tempgauss_hrs = gaussiancalc(probdatas.sitting_hours.mean_altered, probdatas.sitting_hours.var_altered, dataset[i].sitting_duration);
@@ -541,6 +561,7 @@ void *cmatrix(Probability_Err *postprobdata, struct Confusion_Matrix *resultset,
     (*(resultset + index)).prob_error /= (float)rowcount;
     return 0;
 }
+
 // =============================================================================
 // Gaussian Formula
 // =============================================================================
