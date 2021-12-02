@@ -12,7 +12,8 @@ Fertility Diagnosis Data
 OUTPUT:
 
 > 1. Confusion Matrix
-> 2. GNUPlot
+> 2. Probability of Error
+> 3. GNUPlot
 
 
 Assumptions:
