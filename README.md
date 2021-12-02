@@ -6,13 +6,13 @@ Finalized on 30 Nov 2021
 
 Input
 
-Fertility Diagnosis
+Fertility Diagnosis Data
 
 
 OUTPUT:
 
-1. Confusion Matrix
-2. GNUPlot
+> 1. Confusion Matrix
+> 2. GNUPlot
 
 
 Assumptions:
