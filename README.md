@@ -20,7 +20,7 @@ Assumptions:
 >Dynamic Memory Allocation instead of static array as data might be more than 100
 
 ## Personal Learning
-nbpython.py to do the assign using python
+nbpython.py to do the assignment using python during free time
 library used:
 pandas - DataFrame
 math - math function
