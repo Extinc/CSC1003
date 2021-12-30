@@ -353,7 +353,7 @@ void *cpcalc(Features *dataset, struct FeatureSet *priorprob, Probability *resul
 void *postprobcalc(Features *dataset, struct FeatureSet *fsetdatas, Probability *probdataset, Probability_Err *resultset, unsigned int rowcount)
 {
     Probability probdatas = *probdataset;
-    double tempprob_normal = 0, tempprob_altered = 0;
+    double tempprob_normal = 0, tempprob_altered = 0, tempprobnorm = 0;
     double tempgauss_age = 0, tempgauss_hrs = 0;
     int i = 0;
     for (i = 0; i < rowcount; i++)

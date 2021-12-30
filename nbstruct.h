@@ -19,7 +19,7 @@
 #define SH_DAILY 1             // Smoking Habit Daily
 #define NORMAL_YES 0           // NORMAL / YES
 #define ALTERED_NO 1           // ALTERED / NO
-#define ALPHA 0.01             // alpha value for laplace smoothing
+#define ALPHA 0.001             // alpha value for laplace smoothing
 typedef struct
 {
     float seasons;                       // SEASON OF Analysis
